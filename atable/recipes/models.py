@@ -19,7 +19,7 @@ class RecipeIngredient(models.Model):
 
     recipe = models.ForeignKey('Recipe')
     ingredient = models.ForeignKey(Ingredient)
-    quantity = models.IntField()
+    quantity = models.IntegerField()
 
 
 class Ustensil(models.Model):
@@ -31,7 +31,7 @@ class Recipe(models.Model):
 
     name = models.CharField(max_length=100)
     meal_type = models.CharField(max_length=10, choices=('meal', 'dessert'))
-    parts = models.IntField()
+    parts = models.IntegerField()
     picture = models.ImageField(upload_to='recipe')
     preparation_time = models.DurationField()
     cooking_time = models.DurationField()
@@ -46,7 +46,7 @@ class Recipe(models.Model):
 class MealParticipant(models.Model):
 
     diet = models.ForeignKey('Diet')
-    count = models.IntField()
+    count = models.IntegerField()
 
 
 class Meal(models.Model):
