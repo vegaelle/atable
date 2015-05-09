@@ -30,7 +30,10 @@ class Ustensil(models.Model):
 class Recipe(models.Model):
 
     name = models.CharField(max_length=100)
-    meal_type = models.CharField(max_length=10, choices=('meal', 'dessert'))
+    meal_type = models.CharField(max_length=10,
+                                 choices=(('meal', 'Meal'),
+                                          ('dessert', 'Dessert'))
+                                 )
     parts = models.IntegerField()
     picture = models.ImageField(upload_to='recipe')
     preparation_time = models.DurationField()
