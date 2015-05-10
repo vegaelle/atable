@@ -5,6 +5,9 @@ class Diet(models.Model):
 
     name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
+
 
 class Ingredient(models.Model):
 
@@ -13,6 +16,9 @@ class Ingredient(models.Model):
     price = models.FloatField()
     providers = models.TextField()
     diets = models.ManyToManyField(Diet)
+
+    def __str__(self):
+        return self.name
 
 
 class RecipeIngredient(models.Model):
@@ -26,6 +32,9 @@ class Ustensil(models.Model):
 
     name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
+
 
 class Recipe(models.Model):
 
@@ -36,14 +45,17 @@ class Recipe(models.Model):
                                  )
     parts = models.IntegerField()
     picture = models.ImageField(upload_to='recipe')
-    preparation_time = models.DurationField()
-    cooking_time = models.DurationField()
+    preparation_time = models.DurationField(null=True, blank=True)
+    cooking_time = models.DurationField(null=True, blank=True)
     description = models.TextField()
     licence = models.TextField()
     author = models.CharField(max_length=100)
-    parent_recipes = models.ManyToManyField('self')
+    parent_recipes = models.ManyToManyField('self', blank=True)
     ingredients = models.ManyToManyField(Ingredient, through=RecipeIngredient)
-    ustensils = models.ManyToManyField(Ustensil)
+    ustensils = models.ManyToManyField(Ustensil, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class MealParticipant(models.Model):
@@ -55,10 +67,13 @@ class MealParticipant(models.Model):
 class Meal(models.Model):
 
     name = models.CharField(max_length=100)
-    begin = models.DateTimeField()
-    end = models.DateTimeField()
+    begin = models.TimeField()
+    end = models.TimeField()
     recipes = models.ManyToManyField(Recipe)
-    participants = models.ManyToManyField(MealParticipant)
+    participants = models.ManyToManyField(MealParticipant, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class SessionMeal(models.Model):
@@ -72,3 +87,6 @@ class Session(models.Model):
 
     name = models.CharField(max_length=100)
     meals = models.ManyToManyField(Meal, through=SessionMeal)
+
+    def __str__(self):
+        return self.name
