@@ -70,7 +70,7 @@ class Meal(models.Model):
     begin = models.TimeField()
     end = models.TimeField()
     recipes = models.ManyToManyField(Recipe)
-    participants = models.ManyToManyField(MealParticipant)
+    participants = models.ManyToManyField(MealParticipant, blank=True)
 
     def __str__(self):
         return self.name
