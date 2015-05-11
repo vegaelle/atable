@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'grappelli.dashboard',
     'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -110,7 +111,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Grappelli
+
 GRAPPELLI_ADMIN_TITLE = 'À Table'
+
+GRAPPELLI_INDEX_DASHBOARD = 'atable.dashboard.CustomIndexDashboard'
 
 # Atable specific settings
 
