@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -101,10 +102,45 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Atable specific settings
+
+DEFAULT_RECIPE_LICENCE = """
+<h2> CC0 1.0 universel (CC0 1.0)</h2>
+<em>Transfert dans le Domaine Public</em>
+
+<h3>Cette licence est acceptable pour des œuvres culturelles libres.</h3>
+
+<p>La personne qui a associé une œuvre à cet acte a dédié l’œuvre au domaine
+public en renonçant dans le monde entier à ses droits sur l’œuvre selon les
+lois sur le droit d’auteur, droit voisin et connexes, dans la mesure permise
+par la loi.</p>
+
+<p>Vous pouvez copier, modifier, distribuer et représenter l’œuvre, même à des
+fins commerciales, sans avoir besoin de demander l’autorisation. Voir d’autres
+informations ci-dessous.</p>
+
+<h3>Autres informations</h3>
+
+<ul>
+<li>Les brevets et droits de marque commerciale qui peuvent être détenus par
+autrui ne sont en aucune façon affectés par CC0, de même pour les droits que
+pourraient détenir d’autres personnes sur l’œuvre ou sur la façon dont elle est
+utilisée, comme le droit à l’image ou à la vie privée.</li>
+<li>À moins d’une mention expresse contraire, la personne qui a identifié une
+œuvre à cette notice ne concède aucune garantie sur l’œuvre et décline toute
+responsabilité de toute utilisation de l’œuvre, dans la mesure permise par la
+loi.</li>
+<li>Quand vous utilisez ou citez l’œuvre, vous ne devez pas sous-entendre le
+soutien de l’auteur ou de la personne qui affirme.</li>
+</ul>"""
+
+DEFAULT_RECIPE_AUTHOR = 'La Grande Ourse'
+DEFAULT_DATE_FORMAT = '%d/%m/%Y'
