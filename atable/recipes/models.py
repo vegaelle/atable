@@ -9,6 +9,9 @@ class Diet(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'régime'
+
 
 class Ingredient(models.Model):
 
@@ -118,7 +121,10 @@ class Recipe(models.Model):
 
 class MealParticipant(models.Model):
 
-    diet = models.ForeignKey(Diet, verbose_name='régime')
+    meal = models.ForeignKey('Meal', verbose_name='repas')
+    diet = models.ForeignKey(Diet, verbose_name='régime', blank=True,
+                             null=True,
+                             help_text='Laissez vide si pas de régime spécial')
     count = models.IntegerField(verbose_name='nombre de personnes')
 
     def __str__(self):
@@ -141,9 +147,6 @@ class Meal(models.Model):
                            help_text='Entrez l’heure de fin, au format '
                            'HH:MM:SS')
     recipes = models.ManyToManyField(Recipe, verbose_name='recettes')
-    participants = models.ManyToManyField(MealParticipant, blank=True,
-                                          related_name='meal',
-                                          verbose_name='participants')
 
     def __str__(self):
         return self.name
