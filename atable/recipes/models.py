@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.shortcuts import resolve_url
 
 
 class Diet(models.Model):
@@ -63,7 +64,8 @@ class Recipe(models.Model):
                                  verbose_name='type de recette',
                                  )
     parts = models.IntegerField(verbose_name='nombre de parts')
-    picture = models.ImageField(upload_to='recipe', verbose_name='image')
+    picture = models.ImageField(upload_to='recipe', verbose_name='image',
+                                blank=True)
     preparation_time = models.DurationField(null=True, blank=True,
                                             verbose_name='temps de '
                                             'préparation',
@@ -127,10 +129,13 @@ class MealParticipant(models.Model):
                              help_text='Laissez vide si pas de régime spécial')
     count = models.IntegerField(verbose_name='nombre de personnes')
 
+    def diet_name(self):
+        return self.diet.name if self.diet else 'Omnivore'
+
     def __str__(self):
         return '{session} — {count} × {diet}'.format(session=self.meal,
                                                      count=self.count,
-                                                     diet=self.diet)
+                                                     diet=self.diet_name())
 
     class Meta:
         verbose_name = 'participant à un repas'
@@ -150,6 +155,61 @@ class Meal(models.Model):
 
     def __str__(self):
         return self.name
+
+    def recipes_list(self):
+        return self.recipes.order_by('meal_type')
+
+    def participants(self):
+        return self.mealparticipant_set.all()
+
+    def ingredients_list(self):
+        """returns a list of ingredients needed for all recipes in this meal.
+        The ingredients are returned as dicts containing the Ingredient itself,
+        the quantity needed, and the total price of that ingredient.
+        """
+        ingredients = {}
+        for recipe in self.recipes.all():
+            for recipe_ingredient in recipe.recipeingredient_set.all():
+                if recipe_ingredient.ingredient not in ingredients:
+                    ingredients[recipe_ingredient.ingredient] = 0
+                ingredients[recipe_ingredient.ingredient] += \
+                    recipe_ingredient.quantity
+
+        ingredients_list = []
+        for ingredient, quantity in ingredients.items():
+            ingredients_list.append({'ingredient': ingredient,
+                                     'quantity': quantity,
+                                     'price': quantity * ingredient.price})
+        return ingredients_list
+
+    def total_price(self):
+        """returns the sum of the individual price of each ingredient in each
+        recipe of the meal.
+        """
+        price = 0
+        for recipe in self.recipes.all():
+            for recipe_ingredient in recipe.recipeingredient_set.all():
+                price += recipe_ingredient.ingredient.price *\
+                    recipe_ingredient.quantity
+        return price
+
+    def ustensils_list(self):
+        ustensils = {}
+        for recipe in self.recipes.all():
+            for ustensil in recipe.ustensils.all():
+                if ustensil not in ustensils:
+                    ustensils[ustensil] = []
+                ustensils[ustensil].append(recipe)
+        return [{'ustensil': u, 'used_in': r} for u, r in ustensils.items()]
+
+    def admin_roadsheet(self):
+        return '<a href="{url}" title="Générer la feuille de route" '\
+               'target="_BLANK"><img src="/static/open-iconic/spreadsheet'\
+               '.svg" alt="Générer la feuille de route" /></a>'.format(
+                   url=resolve_url('roadsheet_meal',
+                                   meal_id=self.id))
+    admin_roadsheet.short_description = 'Feuille de route'
+    admin_roadsheet.allow_tags = True
 
     class Meta:
         verbose_name = 'repas'

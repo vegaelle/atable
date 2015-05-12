@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8" />
+		<title>roadsheet</title>
+	</head>
+	<body>
+        <h1>Feuille de route de repas : {{ meal.name }}</h1>
+        <h2>Liste des plats</h2>
+        <ul>
+            {% for recipe in meal.recipes_list %}
+            <li>{{ recipe }}</li>
+            {% endfor %}
+        </ul>
+        <h2>Liste des participants</h2>
+        <ul>
+            {% for participant in meal.participants %}
+            <li>{{ participant.count }} {{ participant.diet_name }}{{ participant.count | pluralize }}
+            </li>
+            {% endfor %}
+        </ul>
+        <h2>Liste de courses</h2>
+        <table>
+            <thead>
+                <tr><th>Ingrédient</th><th>Quantité</th><th>Prix</th></tr>
+            </thead>
+            <tbody>
+                {% for ingredient in meal.ingredients_list %}
+                    <tr><td>{{ ingredient.ingredient }}</td>
+                        <td>{{ ingredient.quantity }} {{ ingredient.ingredient.unit }}</td>
+                        <td>{{ ingredient.price }} €</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr><td>TOTAL</td><td></td>
+                    <td><strong>{{ meal.total_price }}</strong></td></tr>
+            </tfoot>
+        </ul>
+        <h2>Ustensiles</h2>
+        <ul>
+            {% for ustensil in meal.ustensils_list %}
+            <li>{{ ustensil.ustensil }}
+                {% if ustensil.used_in|length > 1 %}
+                <br />Utilisé pour :
+                <ul>
+                    {% for recipe in ustensil.used_in %}
+                    <li>{{ recipe }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+	</body>
+</html>

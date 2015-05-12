@@ -32,6 +32,7 @@ class MealAdmin(admin.ModelAdmin):
     actions = [generate_roadsheet]
     filter_horizontal = ('recipes',)
     inlines = [MealParticipantInline, ]
+    list_display = ('name', 'admin_roadsheet')
 
 
 @admin.register(Session)
