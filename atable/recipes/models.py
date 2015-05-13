@@ -162,6 +162,10 @@ class Meal(models.Model):
     def participants(self):
         return self.mealparticipant_set.all()
 
+    def participants_count(self):
+        return sum([mp.count for mp in self.mealparticipant_set.all()])
+    participants_count.short_description = 'Nombre de participants'
+
     def ingredients_list(self):
         """returns a list of ingredients needed for all recipes in this meal.
         The ingredients are returned as dicts containing the Ingredient itself,

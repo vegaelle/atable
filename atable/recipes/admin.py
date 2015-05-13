@@ -16,6 +16,11 @@ class SessionMealInline(admin.TabularInline):
     model = SessionMeal
 
 
+@admin.register(Ingredient)
+class IngredientAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('name', 'diets', 'price')
@@ -32,7 +37,9 @@ class MealAdmin(admin.ModelAdmin):
     actions = [generate_roadsheet]
     filter_horizontal = ('recipes',)
     inlines = [MealParticipantInline, ]
-    list_display = ('name', 'admin_roadsheet')
+    list_display = ('name', 'participants_count', 'begin', 'end',
+                    'admin_roadsheet')
+    list_filter = ('recipes__ingredients__diets__name',)
 
 
 @admin.register(Session)
@@ -47,7 +54,6 @@ class SessionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Diet)
-admin.site.register(Ingredient)
 admin.site.register(Ustensil)
 admin.site.register(MealParticipant)
 admin.site.register(RecipeIngredient)

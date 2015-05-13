@@ -9,7 +9,12 @@
         <h2>Liste des plats</h2>
         <ul>
             {% for recipe in meal.recipes_list %}
-            <li>{{ recipe }}</li>
+            <li><img src="{{ recipe.picture.url }}" alt="{{ recipe }}"
+            width="100" />{{ recipe }}
+                {% if recipe.diets %}
+                (<em>{{ recipe.diets }}</em>)
+                {% endif %}
+            </li>
             {% endfor %}
         </ul>
         <h2>Liste des participants</h2>
@@ -34,7 +39,7 @@
             </tbody>
             <tfoot>
                 <tr><td>TOTAL</td><td></td>
-                    <td><strong>{{ meal.total_price }}</strong></td></tr>
+                    <td><strong>{{ meal.total_price }} €</strong></td></tr>
             </tfoot>
         </table>
         <h2>Ustensiles</h2>
