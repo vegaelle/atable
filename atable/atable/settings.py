@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django.core.urlresolvers import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -111,6 +112,9 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+LOGIN_URL = reverse_lazy('admin:login')
+LOGOUT_URL = reverse_lazy('admin:logout')
+
 # Grappelli
 
 GRAPPELLI_ADMIN_TITLE = 'À Table'
@@ -119,8 +123,7 @@ GRAPPELLI_INDEX_DASHBOARD = 'atable.dashboard.CustomIndexDashboard'
 
 # Atable specific settings
 
-DEFAULT_RECIPE_LICENCE = """
-<h2> CC0 1.0 universel (CC0 1.0)</h2>
+DEFAULT_RECIPE_LICENCE = """<h2> CC0 1.0 universel (CC0 1.0)</h2>
 <em>Transfert dans le Domaine Public</em>
 
 <h3>Cette licence est acceptable pour des œuvres culturelles libres.</h3>
@@ -151,3 +154,8 @@ soutien de l’auteur ou de la personne qui affirme.</li>
 
 DEFAULT_RECIPE_AUTHOR = 'La Grande Ourse'
 DEFAULT_DATE_FORMAT = '%d/%m/%Y'
+
+try:
+    from localsettings import *
+except ImportError:
+    pass

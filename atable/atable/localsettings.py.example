@@ -1,0 +1,23 @@
+"""
+In order to generate your secret key, please type the following in a python
+shell:
+import random
+import string
+print(''.join([random.SystemRandom().choice("{}{}{}".format(string.ascii_letters, string.digits, string.punctuation)) for i in range(50)]))
+"""
+SECRET_KEY = 'YOUR SECRET KEY HERE'
+
+DEBUG = False
+
+ALLOWED_HOSTS = ['atable.ondule.fr']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mydatabase',
+        'USER': 'mydatabaseuser',
+        'PASSWORD': 'mypassword',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+} ADMINS = (('Gordon', 'atable@gordon.re'),)
