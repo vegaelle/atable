@@ -23,7 +23,7 @@ class IngredientAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'diets', 'price', 'meal_type', 'parts')
+    list_display = ('name', 'diets_str', 'price', 'meal_type', 'parts')
     inlines = [RecipeIngredientInline, ]
 
 

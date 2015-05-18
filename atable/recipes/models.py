@@ -100,19 +100,25 @@ class Recipe(models.Model):
     def __str__(self):
         return self.name
 
+    @method_cache()
     def diets(self):
         """ return the list of diets for this recipe as a comma-separated
         string.
         """
-        diets = [[str(d) for d in i.diets.all()]
+        # TODO: rewrite this heavy shit
+        diets = [[d for d in i.diets.all()]
                  for i in self.ingredients.all()]
         total_diets = set()
         for diet in diets:
             if len(total_diets) == 0:
                 total_diets = set(diet)
             total_diets = total_diets.intersection(diet)
-        return ', '.join(total_diets) if total_diets else 'Omnivore'
-    diets.short_description = 'régimes'
+        return total_diets
+
+    def diets_str(self):
+        diets = [d.name for d in self.diets()]
+        return ', '.join(diets) if diets else 'Omnivore'
+    diets_str.short_description = 'régimes'
 
     @method_cache()
     def price(self):
@@ -140,10 +146,19 @@ class MealParticipant(models.Model):
     def diet_name(self):
         return self.diet.name if self.diet else 'Omnivore'
 
+    @method_cache()
+    def can_eat(self):
+        """returns a list of recipes that those participants can eat.
+        """
+        if self.diet is None:
+            return self.meal.recipes.all()
+        return [r for r in self.meal.recipes.all()
+                if self.diet in r.diets()]
+
     def __str__(self):
-        return '{session} — {count} × {diet}'.format(session=self.meal,
-                                                     count=self.count,
-                                                     diet=self.diet_name())
+        return '{meal} — {count} × {diet}'.format(meal=self.meal,
+                                                  count=self.count,
+                                                  diet=self.diet_name())
 
     class Meta:
         verbose_name = 'participant à un repas'
@@ -232,7 +247,7 @@ class Meal(models.Model):
         for recipe in self.recipes.all():
             if recipe not in participants:
                 participants[recipe] = omni_participants_count
-            diets = recipe.diets().split(', ')
+            diets = recipe.diets()
             for diet in diets:
                 participants[recipe] += sum([p.count for p in
                                              self.mealparticipant_set

@@ -18,7 +18,9 @@
                 {% endif %}
                 {{ recipe }}
                 {% if recipe.diets %}
-                (<em>{{ recipe.diets }}</em>)
+                (<em>{{ recipe.diets | join:', ' }}</em>)
+                {% else %}
+                (<em>Omnivore</em>)
                 {% endif %}
                 {% if participant == 0 %}
                 <strong>Aucun participant ne peut consommer ce plat !</strong>
@@ -34,6 +36,17 @@
         <ul>
             {% for participant in meal.participants %}
             <li>{{ participant.count }} {{ participant.diet_name }}{{ participant.count | pluralize }}
+                {% if participant.can_eat|length == 0 %}
+                <p><strong>Ce{{ participant.count | pluralize }}
+                        participant{{ participant.count | pluralize }} ne
+                        peu{{ participant.count | pluralize:'t,vent' }} rien
+                        manger !</strong></p>
+                {% else %}
+                <p>Ce{{ participant.count | pluralize }}
+                   participant{{ participant.count | pluralize }}
+                   peu{{ participant.count | pluralize:'t,vent' }} manger
+                   {{ participant.can_eat | join:', ' }}</p>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>
