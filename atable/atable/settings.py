@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'recipes',
 )
 
@@ -120,6 +121,11 @@ LOGOUT_URL = reverse_lazy('admin:logout')
 GRAPPELLI_ADMIN_TITLE = 'À Table'
 
 GRAPPELLI_INDEX_DASHBOARD = 'atable.dashboard.CustomIndexDashboard'
+
+# Django Debug Toolbar
+
+DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': STATIC_URL + 'jquery-2.1.4.min.js',
+                        }
 
 # Atable specific settings
 
