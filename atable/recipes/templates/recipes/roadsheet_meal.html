@@ -1,3 +1,4 @@
+{% load key %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,7 +9,9 @@
         <h1>Feuille de route de repas : {{ meal.name }}</h1>
         <h2>Liste des plats</h2>
         <ul>
-            {% for recipe in meal.recipes_list %}
+        {% with participants=meal.recipe_diet_participants %}
+        {% for recipe in meal.recipes_list %}
+            {% with participant=participants|key:recipe %}
             <li>
                 {% if recipe.picture %}
                 <img src="{{ recipe.picture.url }}" alt="{{ recipe }}" width="100" />
@@ -17,8 +20,15 @@
                 {% if recipe.diets %}
                 (<em>{{ recipe.diets }}</em>)
                 {% endif %}
+                {% if participant == 0 %}
+                <strong>Aucun participant ne peut consommer ce plat !</strong>
+                {% else %}
+                pour {{ participant }} personne{{ participant |  pluralize }}
+                {% endif %}
             </li>
-            {% endfor %}
+            {% endwith %}
+        {% endfor %}
+        {% endwith %}
         </ul>
         <h2>Liste des participants</h2>
         <ul>

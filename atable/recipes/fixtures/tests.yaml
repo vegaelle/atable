@@ -82,7 +82,7 @@
 - fields: {ingredient: 2, quantity: 2, recipe: 4}
   model: recipes.recipeingredient
   pk: 9
-- fields: {name: hoven}
+- fields: {name: oven}
   model: recipes.ustensil
   pk: 1
 - fields:

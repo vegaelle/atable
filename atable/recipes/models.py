@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.shortcuts import resolve_url
+from .decorators import method_cache
 
 
 class Diet(models.Model):
@@ -22,6 +23,7 @@ class Ingredient(models.Model):
     providers = models.TextField(blank=True, verbose_name='fournisseurs')
     diets = models.ManyToManyField(Diet, blank=True, verbose_name='régimes')
 
+    @method_cache()
     def diets_str(self):
         return ', '.join([d.name.title() for d in self.diets.all()]) if\
             self.diets.count() else 'Omnivore'
@@ -112,6 +114,7 @@ class Recipe(models.Model):
         return ', '.join(total_diets) if total_diets else 'Omnivore'
     diets.short_description = 'régimes'
 
+    @method_cache()
     def price(self):
         """ return the total price of the recipe
         """
@@ -161,16 +164,20 @@ class Meal(models.Model):
     def __str__(self):
         return self.name
 
+    @method_cache()
     def recipes_list(self):
         return self.recipes.order_by('meal_type')
 
+    @method_cache()
     def participants(self):
         return self.mealparticipant_set.all()
 
+    @method_cache()
     def participants_count(self):
         return sum([mp.count for mp in self.mealparticipant_set.all()])
     participants_count.short_description = 'Nombre de participants'
 
+    @method_cache()
     def ingredients_list(self):
         """returns a list of ingredients needed for all recipes in this meal.
         The ingredients are returned as dicts containing the Ingredient itself,
@@ -191,6 +198,7 @@ class Meal(models.Model):
                                      'price': quantity * ingredient.price})
         return ingredients_list
 
+    @method_cache()
     def total_price(self):
         """returns the sum of the individual price of each ingredient in each
         recipe of the meal.
@@ -202,6 +210,7 @@ class Meal(models.Model):
                     recipe_ingredient.quantity
         return price
 
+    @method_cache()
     def ustensils_list(self):
         ustensils = {}
         for recipe in self.recipes.all():
@@ -211,15 +220,7 @@ class Meal(models.Model):
                 ustensils[ustensil].append(recipe)
         return [{'ustensil': u, 'used_in': r} for u, r in ustensils.items()]
 
-    def admin_roadsheet(self):
-        return '<a href="{url}" title="Générer la feuille de route" '\
-               'target="_BLANK"><img src="/static/open-iconic/spreadsheet'\
-               '.svg" alt="Générer la feuille de route" /></a>'.format(
-                   url=resolve_url('roadsheet_meal',
-                                   meal_id=self.id))
-    admin_roadsheet.short_description = 'Feuille de route'
-    admin_roadsheet.allow_tags = True
-
+    @method_cache()
     def recipe_diet_participants(self):
         """returns a dict containing participants count for each recipe of the
         meal.
@@ -237,6 +238,15 @@ class Meal(models.Model):
                                              self.mealparticipant_set
                                              .filter(diet__name=diet)])
         return participants
+
+    def admin_roadsheet(self):
+        return '<a href="{url}" title="Générer la feuille de route" '\
+               'target="_BLANK"><img src="/static/open-iconic/spreadsheet'\
+               '.svg" alt="Générer la feuille de route" /></a>'.format(
+                   url=resolve_url('roadsheet_meal',
+                                   meal_id=self.id))
+    admin_roadsheet.short_description = 'Feuille de route'
+    admin_roadsheet.allow_tags = True
 
     class Meta:
         verbose_name = 'repas'
