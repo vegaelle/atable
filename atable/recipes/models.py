@@ -22,6 +22,11 @@ class Ingredient(models.Model):
     providers = models.TextField(blank=True, verbose_name='fournisseurs')
     diets = models.ManyToManyField(Diet, blank=True, verbose_name='régimes')
 
+    def diets_str(self):
+        return ', '.join([d.name.title() for d in self.diets.all()]) if\
+            self.diets.count() else 'Omnivore'
+    diets_str.short_description = 'Régimes'
+
     def __str__(self):
         return self.name
 
@@ -104,7 +109,7 @@ class Recipe(models.Model):
             if len(total_diets) == 0:
                 total_diets = set(diet)
             total_diets = total_diets.intersection(diet)
-        return ', '.join(total_diets)
+        return ', '.join(total_diets) if total_diets else 'Omnivore'
     diets.short_description = 'régimes'
 
     def price(self):
@@ -214,6 +219,24 @@ class Meal(models.Model):
                                    meal_id=self.id))
     admin_roadsheet.short_description = 'Feuille de route'
     admin_roadsheet.allow_tags = True
+
+    def recipe_diet_participants(self):
+        """returns a dict containing participants count for each recipe of the
+        meal.
+        """
+        participants = {}
+        omni_participants_count = sum([p.count for p in
+                                       self.mealparticipant_set
+                                       .filter(diet=None)])
+        for recipe in self.recipes.all():
+            if recipe not in participants:
+                participants[recipe] = omni_participants_count
+            diets = recipe.diets().split(', ')
+            for diet in diets:
+                participants[recipe] += sum([p.count for p in
+                                             self.mealparticipant_set
+                                             .filter(diet__name=diet)])
+        return participants
 
     class Meta:
         verbose_name = 'repas'

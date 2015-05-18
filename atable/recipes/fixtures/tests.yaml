@@ -1,0 +1,159 @@
+- fields: {name: veggie}
+  model: recipes.diet
+  pk: 2
+- fields: {name: vegan}
+  model: recipes.diet
+  pk: 3
+- fields: {name: gluten}
+  model: recipes.diet
+  pk: 4
+- fields:
+    diets: [2, 3, 4]
+    name: tomato
+    price: 1.0
+    providers: provider1
+    unit: unit
+  model: recipes.ingredient
+  pk: 1
+- fields:
+    diets: [4]
+    name: ham
+    price: 2.0
+    providers: provider2
+    unit: kg
+  model: recipes.ingredient
+  pk: 2
+- fields:
+    diets: [2, 4]
+    name: egg
+    price: 3.0
+    providers: provider1
+    unit: unit
+  model: recipes.ingredient
+  pk: 3
+- fields:
+    diets: [2, 3]
+    name: flour
+    price: 5.0
+    providers: provider1
+    unit: kg
+  model: recipes.ingredient
+  pk: 4
+- fields:
+    diets: []
+    name: sausage
+    price: 6.0
+    providers: provider2
+    unit: unit
+  model: recipes.ingredient
+  pk: 5
+- fields:
+    diets: [2, 3]
+    name: sugar
+    price: 6.0
+    providers: ''
+    unit: g
+  model: recipes.ingredient
+  pk: 6
+- fields: {ingredient: 2, quantity: 1, recipe: 1}
+  model: recipes.recipeingredient
+  pk: 1
+- fields: {ingredient: 4, quantity: 2, recipe: 1}
+  model: recipes.recipeingredient
+  pk: 2
+- fields: {ingredient: 1, quantity: 1, recipe: 2}
+  model: recipes.recipeingredient
+  pk: 3
+- fields: {ingredient: 3, quantity: 2, recipe: 2}
+  model: recipes.recipeingredient
+  pk: 4
+- fields: {ingredient: 4, quantity: 3, recipe: 2}
+  model: recipes.recipeingredient
+  pk: 5
+- fields: {ingredient: 4, quantity: 1, recipe: 3}
+  model: recipes.recipeingredient
+  pk: 6
+- fields: {ingredient: 6, quantity: 2, recipe: 3}
+  model: recipes.recipeingredient
+  pk: 7
+- fields: {ingredient: 1, quantity: 1, recipe: 4}
+  model: recipes.recipeingredient
+  pk: 8
+- fields: {ingredient: 2, quantity: 2, recipe: 4}
+  model: recipes.recipeingredient
+  pk: 9
+- fields: {name: hoven}
+  model: recipes.ustensil
+  pk: 1
+- fields:
+    author: La Grande Ourse
+    cooking_time: null
+    description: omni recipe 1
+    licence: Public domain
+    meal_type: meal
+    name: omni recipe 1
+    parent_recipes: []
+    parts: 4
+    picture: ''
+    preparation_time: null
+    ustensils: [1]
+  model: recipes.recipe
+  pk: 1
+- fields:
+    author: La Grande Ourse
+    cooking_time: null
+    description: veggie recipe 1
+    licence: Public domain
+    meal_type: meal
+    name: veggie recipe 1
+    parent_recipes: []
+    parts: 2
+    picture: ''
+    preparation_time: null
+    ustensils: [1]
+  model: recipes.recipe
+  pk: 2
+- fields:
+    author: La Grande Ourse
+    cooking_time: null
+    description: veggan recipe 1
+    licence: Public domain
+    meal_type: dessert
+    name: veggan recipe 1
+    parent_recipes: []
+    parts: 3
+    picture: ''
+    preparation_time: null
+    ustensils: []
+  model: recipes.recipe
+  pk: 3
+- fields:
+    author: La Grande Ourse
+    cooking_time: null
+    description: gluten-free recipe 1
+    licence: Public domain
+    meal_type: meal
+    name: gluten-free recipe 1
+    parent_recipes: []
+    parts: 4
+    picture: ''
+    preparation_time: null
+    ustensils: []
+  model: recipes.recipe
+  pk: 4
+- fields: {count: 10, diet: null, meal: 1}
+  model: recipes.mealparticipant
+  pk: 1
+- fields: {count: 5, diet: 2, meal: 1}
+  model: recipes.mealparticipant
+  pk: 2
+- fields: {count: 1, diet: 4, meal: 1}
+  model: recipes.mealparticipant
+  pk: 3
+- fields:
+    begin: '12:00:00'
+    end: '13:00:00'
+    name: meal 1
+    recipes: [1, 2]
+  model: recipes.meal
+  pk: 1
