@@ -1,3 +1,4 @@
+from math import ceil
 from django.db import models
 from django.conf import settings
 from django.shortcuts import resolve_url
@@ -200,11 +201,17 @@ class Meal(models.Model):
         """
         ingredients = {}
         for recipe in self.recipes.all():
+            # first, we get the total number of parts we have to make (we only
+            # count diet-compatible participants).
+            # then, we calculate the total number of this recipe that will be
+            # needed.
+            parts_count = self.recipe_diet_participants()[recipe]
+            recipe_count = ceil(parts_count / recipe.parts)
             for recipe_ingredient in recipe.recipeingredient_set.all():
                 if recipe_ingredient.ingredient not in ingredients:
                     ingredients[recipe_ingredient.ingredient] = 0
                 ingredients[recipe_ingredient.ingredient] += \
-                    recipe_ingredient.quantity
+                    recipe_ingredient.quantity * recipe_count
 
         ingredients_list = []
         for ingredient, quantity in ingredients.items():
@@ -218,11 +225,7 @@ class Meal(models.Model):
         """returns the sum of the individual price of each ingredient in each
         recipe of the meal.
         """
-        price = 0
-        for recipe in self.recipes.all():
-            for recipe_ingredient in recipe.recipeingredient_set.all():
-                price += recipe_ingredient.ingredient.price *\
-                    recipe_ingredient.quantity
+        price = sum([i['price'] for i in self.ingredients_list()])
         return price
 
     @method_cache()

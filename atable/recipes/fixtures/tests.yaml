@@ -150,6 +150,11 @@
 - fields: {count: 1, diet: 4, meal: 1}
   model: recipes.mealparticipant
   pk: 3
+- fields: {count: 5, diet: 4, meal: 2}
+  model: recipes.mealparticipant
+  pk: 4
+- fields: {count: 5, diet: 2, meal: 2}
+  model: recipes.mealparticipant
 - fields:
     begin: '12:00:00'
     end: '13:00:00'
@@ -157,3 +162,10 @@
     recipes: [1, 2]
   model: recipes.meal
   pk: 1
+- fields:
+    begin: '19:00:00'
+    end: '20:00:00'
+    name: meal 2
+    recipes: [1, 3]
+  model: recipes.meal
+  pk: 2
