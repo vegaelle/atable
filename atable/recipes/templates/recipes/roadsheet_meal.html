@@ -53,11 +53,12 @@
         <h2>Liste de courses</h2>
         <table>
             <thead>
-                <tr><th>Ingrédient</th><th>Quantité</th><th>Prix</th></tr>
+                <tr><th>Ingrédient</th><th>Prix unitaire</th><th>Quantité</th><th>Prix</th></tr>
             </thead>
             <tbody>
                 {% for ingredient in meal.ingredients_list %}
                     <tr><td>{{ ingredient.ingredient }}</td>
+                        <td>{{ ingredient.ingredient.price }} €</td>
                         <td>{{ ingredient.quantity }} {{ ingredient.ingredient.unit }}</td>
                         <td>{{ ingredient.price }} €</td>
                     </tr>
