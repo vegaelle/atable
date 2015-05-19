@@ -163,6 +163,6 @@ DEFAULT_RECIPE_AUTHOR = 'La Grande Ourse'
 DEFAULT_DATE_FORMAT = '%d/%m/%Y'
 
 try:
-    from localsettings import *
+    from .localsettings import *
 except ImportError:
     pass
