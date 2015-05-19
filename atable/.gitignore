@@ -1,3 +1,4 @@
 db.sqlite3
 media
 atable/localsettings.py
+staticfiles
