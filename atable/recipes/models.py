@@ -257,14 +257,14 @@ class Meal(models.Model):
                                              .filter(diet__name=diet)])
         return participants
 
-    def admin_roadsheet(self):
+    def admin_roadmap(self):
         return '<a href="{url}" title="Générer la feuille de route" '\
                'target="_BLANK"><img src="/static/open-iconic/spreadsheet'\
                '.svg" alt="Générer la feuille de route" /></a>'.format(
-                   url=resolve_url('roadsheet_meal',
+                   url=resolve_url('roadmap_meal',
                                    meal_id=self.id))
-    admin_roadsheet.short_description = 'Feuille de route'
-    admin_roadsheet.allow_tags = True
+    admin_roadmap.short_description = 'Feuille de route'
+    admin_roadmap.allow_tags = True
 
     class Meta:
         verbose_name = 'repas'

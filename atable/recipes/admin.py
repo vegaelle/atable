@@ -29,27 +29,27 @@ class RecipeAdmin(admin.ModelAdmin):
 
 @admin.register(Meal)
 class MealAdmin(admin.ModelAdmin):
-    def generate_roadsheet(modeladmin, request, queryset):
-        return render(request, 'recipes/roadsheet_meal.html', {})
+    def generate_roadmap(modeladmin, request, queryset):
+        return render(request, 'recipes/roadmap_meal.html', {})
 
-    generate_roadsheet.short_description = 'Générer la feuille de route'
+    generate_roadmap.short_description = 'Générer la feuille de route'
 
-    actions = [generate_roadsheet]
+    actions = [generate_roadmap]
     filter_horizontal = ('recipes',)
     inlines = [MealParticipantInline, ]
     list_display = ('name', 'participants_count', 'begin', 'end',
-                    'admin_roadsheet')
+                    'admin_roadmap')
     list_filter = ('recipes__ingredients__diets__name',)
 
 
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
-    def generate_roadsheet(modeladmin, request, queryset):
-        return render(request, 'recipes/roadsheet_session.html', {})
+    def generate_roadmap(modeladmin, request, queryset):
+        return render(request, 'recipes/roadmap_session.html', {})
 
-    generate_roadsheet.short_description = 'Générer la feuille de route'
+    generate_roadmap.short_description = 'Générer la feuille de route'
 
-    actions = [generate_roadsheet]
+    actions = [generate_roadmap]
     inlines = [SessionMealInline, ]
 
 
