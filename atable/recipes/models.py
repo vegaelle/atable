@@ -92,7 +92,7 @@ class Recipe(models.Model):
     author = models.CharField(max_length=100, verbose_name='auteur',
                               default=settings.DEFAULT_RECIPE_AUTHOR)
     parent_recipes = models.ManyToManyField('self', blank=True,
-                                            verbose_name='recettes parentes')
+                                            verbose_name='recettes de base')
     ingredients = models.ManyToManyField(Ingredient, through=RecipeIngredient,
                                          verbose_name='ingrédients')
     ustensils = models.ManyToManyField(Ustensil, blank=True,
