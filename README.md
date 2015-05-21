@@ -42,6 +42,10 @@ project repository, and type:
     ./manage.py createsuperuser
     ./manage.py runserver
 
+Optionnally, you can load some fixtures as demo data, with this command:
+
+    ./manage.py loaddata tests
+
 ## Run in production
 
 In production, you are adviced to use a Postgresql database. From the Django
