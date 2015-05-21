@@ -55,6 +55,6 @@ class SessionAdmin(admin.ModelAdmin):
 
 admin.site.register(Diet)
 admin.site.register(Ustensil)
-admin.site.register(MealParticipant)
-admin.site.register(RecipeIngredient)
-admin.site.register(SessionMeal)
+# admin.site.register(MealParticipant)
+# admin.site.register(RecipeIngredient)
+# admin.site.register(SessionMeal)
