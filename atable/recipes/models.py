@@ -2,6 +2,8 @@ from math import ceil
 from django.db import models
 from django.conf import settings
 from django.shortcuts import resolve_url
+from calendar import Calendar
+from dateutils import relativedelta
 from .decorators import method_cache
 
 
@@ -19,7 +21,12 @@ class Diet(models.Model):
 class Ingredient(models.Model):
 
     name = models.CharField(max_length=100, verbose_name='nom')
-    unit = models.CharField(max_length=100, verbose_name='unité')
+    unit = models.CharField(max_length=100, verbose_name='unité',
+                            choices=(('g', 'g'),
+                                     ('kg', 'kg'),
+                                     ('cl', 'cl'),
+                                     ('l', 'l'),
+                                     ('unit', 'unité'),))
     price = models.FloatField(verbose_name='prix')
     providers = models.TextField(blank=True, verbose_name='fournisseurs')
     diets = models.ManyToManyField(Diet, blank=True, verbose_name='régimes')
@@ -293,6 +300,46 @@ class Session(models.Model):
     name = models.CharField(max_length=100, verbose_name='nom')
     meals = models.ManyToManyField(Meal, through=SessionMeal,
                                    verbose_name='repas')
+
+    def calendar(self):
+        """generates calendars representing all meals in the session, as a list
+        of Calendar.monthdatescalendar() lists.
+        In those lists, the second values of tuples are the corresponding Meal
+        objects.
+        """
+        cur_month = None
+
+        meals = self.sessionmeal_set.order_by('date')
+        meals_dates = {}
+        meals_count = 0
+        for meal in meals:
+            cur_month = meal.date if cur_month is None else cur_month
+            meals_count += 1
+            if meal.date not in meals_dates:
+                meals_dates[meal.date] = []
+            meals_dates[meal.date].append(meal.meal)
+
+        months = []
+
+        cal = Calendar()
+        month = cal.monthdatescalendar(cur_month.year, cur_month.month)
+        remaining_meals = meals_count
+        for i, month_week in enumerate(month):
+            for j, day in enumerate(month_week):
+                meal_dates = meals_dates[day] if day in meals_dates else []
+                remaining_meals -= len(meal_dates)
+                month[i][j] = (month[i][j], meal_dates)
+        months.append(month)
+        while remaining_meals > 0:
+            cur_month = cur_month + relativedelta(months=1)
+            month = cal.monthdatescalendar(cur_month.year, cur_month.month)
+            for i, month_week in enumerate(month):
+                for j, day in enumerate(month_week):
+                    meal_dates = meals_dates[day] if day in meals_dates else []
+                    remaining_meals -= len(meal_dates)
+                    month[i][j] = (month[i][j], meal_dates)
+            months.append(month)
+        return months
 
     def __str__(self):
         return self.name
