@@ -5,7 +5,7 @@ Atable is a recipe manager, written in Django.
 ## Requirements
 
 Atable is written in Python3, and does not plan to support Python2 for now
-(althrough it could come later). Its only real requirement is Django-1.8 (but
+(although it could come later). Its only real requirement is Django-1.8 (but
 some optional Django dependencies are also required, like Pillow or PyYAML).
 
 ## Setup
@@ -24,8 +24,7 @@ some optional Django dependencies are also required, like Pillow or PyYAML).
 
 4. Clone repository, and get in the project dir
 
-    git clone https://github.com/gordon-/atable
-    cd atable
+    git clone https://github.com/gordon-/atable && cd atable
 
 5. Install project dependencies
 
@@ -51,7 +50,7 @@ Optionnally, you can load some fixtures as demo data, with this command:
 In production, you are adviced to use a Postgresql database. From the Django
 root (`/atable` from the repository root), copy
 `atable/localsettings.py.example` to `atable/localsettings.py`, and edit the
-contents of the new file. Then, type:
+content of the new file. Then, type:
 
     ./manage.py collectstatic
     ./manage.py migrate
