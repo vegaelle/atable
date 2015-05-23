@@ -266,7 +266,7 @@ class Meal(models.Model):
 
     def admin_roadmap(self):
         return '<a href="{url}" title="Générer la feuille de route" '\
-               'target="_BLANK"><img src="/static/open-iconic/spreadsheet'\
+               'target="_BLANK"><img height="16" src="/static/open-iconic/spreadsheet'\
                '.svg" alt="Générer la feuille de route" /></a>'.format(
                    url=resolve_url('roadmap_meal',
                                    meal_id=self.id))
@@ -324,25 +324,28 @@ class Session(models.Model):
         cal = Calendar()
         month = cal.monthdatescalendar(cur_month.year, cur_month.month)
         remaining_meals = meals_count
-        for i, month_week in enumerate(month):
-            for j, day in enumerate(month_week):
-                meal_dates = meals_dates[day] if day in meals_dates else []
-                remaining_meals -= len(meal_dates)
-                month[i][j] = (month[i][j], meal_dates)
-        months.append(month)
         while remaining_meals > 0:
-            cur_month = cur_month + relativedelta(months=1)
             month = cal.monthdatescalendar(cur_month.year, cur_month.month)
             for i, month_week in enumerate(month):
                 for j, day in enumerate(month_week):
                     meal_dates = meals_dates[day] if day in meals_dates else []
                     remaining_meals -= len(meal_dates)
-                    month[i][j] = (month[i][j], meal_dates)
-            months.append(month)
+                    month[i][j] = {'date': month[i][j], 'meals': meal_dates}
+            months.append({'month': cur_month, 'dates': month})
+            cur_month = cur_month + relativedelta(months=1)
         return months
 
     def __str__(self):
         return self.name
+
+    def admin_roadmap(self):
+        return '<a href="{url}" title="Générer la feuille de route" '\
+               'target="_BLANK"><img height="16" src="/static/open-iconic/spreadsheet'\
+               '.svg" alt="Générer la feuille de route" /></a>'.format(
+                   url=resolve_url('roadmap_session',
+                                   session_id=self.id))
+    admin_roadmap.short_description = 'Feuille de route'
+    admin_roadmap.allow_tags = True
 
     class Meta:
         verbose_name = 'session'

@@ -1,0 +1,48 @@
+{% load key %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8" />
+		<title>Feuille de route de session</title>
+        <link rel="stylesheet" href="{% static 'recipes/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'recipes/css/bootstrap-theme.min.css' %}">
+        <link rel="stylesheet" href="{% static 'recipes/css/recipes.css' %}">
+        <script src="{% static 'recipes/js/jquery-2.1.4.min.js' %}"></script>
+        <script src="{% static 'recipes/js/bootstrap.min.js' %}"></script>
+
+	</head>
+	<body>
+        <h1>Feuille de route de session : {{ session.name }}</h1>
+        <h2>Agenda</h2>
+        {% for month in session.calendar %}
+        <table>
+            <thead>
+                <tr><th colspan="7">{{ month.month | date:'F' }}</th></tr>
+                <tr><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th>
+                    <th>Vendredi</th><th>Samedi</th><th>Dimanche</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for week in month.dates %}
+                <tr>
+                    {% for day in week %}
+                    <td{% if day.date.month != month.month.month %}
+                        class="disabled"{% endif %}>
+                        <table>
+                            <thead><tr><th>{{ day.date | date:'d' }}</th></tr></thead>
+                            {% for meal in day.meals %}
+                            <tr>
+                                <td>{{ meal }} ({{ meal.begin }} - {{ meal.end }})</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+	</body>
+</html>

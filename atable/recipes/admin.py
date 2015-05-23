@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.shortcuts import render
 from .models import (Diet, Ingredient, Meal, Recipe, Session, Ustensil,
                      MealParticipant, RecipeIngredient, SessionMeal)
 
@@ -29,12 +28,6 @@ class RecipeAdmin(admin.ModelAdmin):
 
 @admin.register(Meal)
 class MealAdmin(admin.ModelAdmin):
-    def generate_roadmap(modeladmin, request, queryset):
-        return render(request, 'recipes/roadmap_meal.html', {})
-
-    generate_roadmap.short_description = 'Générer la feuille de route'
-
-    actions = [generate_roadmap]
     filter_horizontal = ('recipes',)
     inlines = [MealParticipantInline, ]
     list_display = ('name', 'participants_count', 'begin', 'end',
@@ -44,12 +37,7 @@ class MealAdmin(admin.ModelAdmin):
 
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
-    def generate_roadmap(modeladmin, request, queryset):
-        return render(request, 'recipes/roadmap_session.html', {})
-
-    generate_roadmap.short_description = 'Générer la feuille de route'
-
-    actions = [generate_roadmap]
+    list_display = ('name', 'admin_roadmap')
     inlines = [SessionMealInline, ]
 
 
