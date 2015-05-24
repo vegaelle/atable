@@ -335,8 +335,35 @@ class Session(models.Model):
             cur_month = cur_month + relativedelta(months=1)
         return months
 
-    def __str__(self):
-        return self.name
+    @method_cache()
+    def ingredients_list(self):
+        """returns a list of ingredients needed for all recipes in all meals of
+        this session. The ingredients are returned as dicts containing the
+        Ingredient itself, the quantity needed, and the total price of that
+        ingredient.
+        """
+        ingredients = {}
+        for sessionmeal in self.sessionmeal_set.order_by('date'):
+            for ingredient in sessionmeal.meal.ingredients_list():
+                if ingredient['ingredient'] in ingredients:
+                    ingredients[ingredient['ingredient']]['quantity'] += \
+                        ingredient['quantity']
+                    ingredients[ingredient['ingredient']]['price'] += \
+                        ingredient['price']
+                else:
+                    ingredients[ingredient['ingredient']] = ingredient
+                    ingredients[ingredient['ingredient']]['date'] = \
+                        sessionmeal.date
+        ingredients_list = [i for i in ingredients.values()]
+        return ingredients_list
+
+    @method_cache()
+    def total_price(self):
+        """returns the sum of the individual price of each ingredient in each
+        recipe of each meal of this session.
+        """
+        price = sum([i['price'] for i in self.ingredients_list()])
+        return price
 
     def admin_roadmap(self):
         return '<a href="{url}" title="Générer la feuille de route" '\
@@ -346,6 +373,9 @@ class Session(models.Model):
                                    session_id=self.id))
     admin_roadmap.short_description = 'Feuille de route'
     admin_roadmap.allow_tags = True
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = 'session'

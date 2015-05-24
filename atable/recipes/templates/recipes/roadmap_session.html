@@ -44,5 +44,26 @@
             </tbody>
         </table>
         {% endfor %}
+        <h2>Liste de courses</h2>
+        <table>
+            <thead>
+                <tr><th>Ingrédient</th><th>Prix unitaire</th><th>Quantité</th><th>Prix</th></tr>
+            </thead>
+            <tbody>
+                {% for ingredient in session.ingredients_list %}
+                {% ifchanged ingredient.date %}<tr><th colspan="4">Pour le {{ ingredient.date | date:'DATE_FORMAT' }}</th></tr>
+                {% endifchanged %}
+                <tr><td>{{ ingredient.ingredient }}</td>
+                    <td>{{ ingredient.ingredient.price }} €</td>
+                    <td>{{ ingredient.quantity }} {{ ingredient.ingredient.unit }}</td>
+                    <td>{{ ingredient.price }} €</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr><td colspan="3">TOTAL</td>
+                    <td><strong>{{ session.total_price }} €</strong></td></tr>
+            </tfoot>
+        </table>
 	</body>
 </html>
