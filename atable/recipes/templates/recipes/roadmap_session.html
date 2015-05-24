@@ -65,5 +65,23 @@
                     <td><strong>{{ session.total_price }} €</strong></td></tr>
             </tfoot>
         </table>
+        <h2>Ustensiles</h2>
+        {% for meal in session.sessionmeal_set.all %}
+        <h3>Pour {{ meal.meal }} ({{ meal.date | date:'DATE_FORMAT' }})</h3>
+        <ul>
+            {% for ustensil in meal.meal.ustensils_list %}
+            <li>{{ ustensil.ustensil }}
+                {% if ustensil.used_in|length > 1 %}
+                <br />Utilisé pour :
+                <ul>
+                    {% for recipe in ustensil.used_in %}
+                    <li>{{ recipe }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
 	</body>
 </html>
