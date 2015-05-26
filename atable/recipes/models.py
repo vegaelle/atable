@@ -104,16 +104,15 @@ class Recipe(models.Model):
                                          verbose_name='ingrédients')
     ustensils = models.ManyToManyField(Ustensil, blank=True,
                                        verbose_name='ustensiles')
+    diets = models.ManyToManyField(Diet, verbose_name='régimes')
 
     def __str__(self):
         return self.name
 
-    @method_cache()
-    def diets(self):
+    def get_diets(self):
         """ return the list of diets for this recipe as a comma-separated
         string.
         """
-        # TODO: rewrite this heavy shit
         diets = [[d for d in i.diets.all()]
                  for i in self.ingredients.all()]
         total_diets = set()
@@ -121,10 +120,17 @@ class Recipe(models.Model):
             if len(total_diets) == 0:
                 total_diets = set(diet)
             total_diets = total_diets.intersection(diet)
-        return total_diets
+        for cur_diet in self.diets.all():
+            if cur_diet not in total_diets:
+                self.diets.remove(cur_diet)
+        self.diets.add(*total_diets)
+
+        # update diets in related sessions
+        # for session in self.session_set.all():
+        #     session.get_diets()
 
     def diets_str(self):
-        diets = [d.name for d in self.diets()]
+        diets = [d.name for d in self.diets.all()]
         return ', '.join(diets) if diets else 'Omnivore'
     diets_str.short_description = 'régimes'
 
@@ -183,6 +189,7 @@ class Meal(models.Model):
                            help_text='Entrez l’heure de fin, au format '
                            'HH:MM:SS')
     recipes = models.ManyToManyField(Recipe, verbose_name='recettes')
+    diets = models.ManyToManyField(Diet, verbose_name='régimes')
 
     def __str__(self):
         return self.name
