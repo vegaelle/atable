@@ -264,6 +264,30 @@ class Meal(models.Model):
                                              .filter(diet__name=diet)])
         return participants
 
+    @method_cache()
+    def warnings(self):
+        """returns a list of warnings concerning this meal (does a recipe not
+        have any compatible participant? Cannot a participant eat something?)
+        """
+        return []
+
+    def admin_warnings(self):
+        warnings = self.warnings()
+        if len(warnings):
+            return '<strong style="color: red;">⚠</strong><ul>' \
+                + '\n'.join(['<li>{}</li>'.format(s) for s in warnings]) \
+                + '</ul>'
+        else:
+            return ''
+
+    @method_cache()
+    def status(self):
+        """returns whether this meal is complete (has something for each
+        participant) or not.
+        """
+        return len(self.warnings()) == 0
+    status.short_description = 'Statut'
+
     def admin_roadmap(self):
         return '<a href="{url}" title="Générer la feuille de route" '\
                'target="_BLANK"><img height="16" src="/static/open-iconic/spreadsheet'\
