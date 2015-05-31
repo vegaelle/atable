@@ -1,0 +1,6 @@
+# Django specific files
+*.pyc
+*.swp
+localsettings.py
+
+
