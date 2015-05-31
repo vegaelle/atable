@@ -19,8 +19,10 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^grappelli/', include('grappelli.urls')),
     url(r'^', include('recipes.urls')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT}),
 ]
+
+# Custom admin title
+admin.site.site_header = settings.DEFAULT_ADMIN_TITLE

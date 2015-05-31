@@ -32,8 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'grappelli.dashboard',
-    'grappelli',
+    'bootstrap3',
+    'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,6 +57,8 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'atable.urls'
+
+DAB_FIELD_RENDERER = 'django_admin_bootstrapped.renderers.BootstrapFieldRenderer'
 
 TEMPLATES = [
     {
@@ -117,18 +119,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = reverse_lazy('admin:login')
 LOGOUT_URL = reverse_lazy('admin:logout')
 
-# Grappelli
-
-GRAPPELLI_ADMIN_TITLE = 'À Table'
-
-GRAPPELLI_INDEX_DASHBOARD = 'atable.dashboard.CustomIndexDashboard'
-
 # Django Debug Toolbar
 
 DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': STATIC_URL + 'jquery-2.1.4.min.js',
                         }
 
 # Atable specific settings
+
+DEFAULT_ADMIN_TITLE = 'À Table'
 
 DEFAULT_RECIPE_LICENCE = """<h2> CC0 1.0 universel (CC0 1.0)</h2>
 <em>Transfert dans le Domaine Public</em>
