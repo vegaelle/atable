@@ -18,11 +18,13 @@ class SessionMealInline(admin.TabularInline):
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'diets_str')
+    exclude = ['diets']
 
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('name', 'diets_str', 'price', 'meal_type', 'parts')
+    exclude = ['diets']
     inlines = [RecipeIngredientInline, ]
 
 

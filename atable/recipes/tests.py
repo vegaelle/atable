@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Meal
+from .models import Meal, Diet, Ingredient, Recipe, RecipeIngredient
 
 
 class MealTest(TestCase):
@@ -33,3 +33,26 @@ class MealTest(TestCase):
 
         m = Meal.objects.get(pk=2)
         self.assertEqual(34.0, m.total_price())
+
+    def test_diets_cascade(self):
+        """current test fixtures contains a veggie recipe. If we remove the
+        Veggie diet on Tomato, which is an ingredient of that recipe, it
+        shouldn’t be veggie anymore.  Also, if we add the Veggie diet to Ham,
+        the omni recipe should become veggie.
+        """
+        tomato = Ingredient.objects.get(name='tomato')
+        diet_veggie = Diet.objects.get(name='veggie')
+        tomato.diets.remove(diet_veggie)
+        r = Recipe.objects.get(name__startswith='veggie')
+        self.assertNotIn(diet_veggie, r.diets.all())
+
+        ham = Ingredient.objects.get(name='ham')
+        ham.diets.add(diet_veggie)
+        r = Recipe.objects.get(name__startswith='omni')
+        self.assertIn(diet_veggie, r.diets.all())
+
+        r = Recipe.objects.get(name__startswith='vegan')
+        ri = RecipeIngredient(recipe=r, ingredient=ham, quantity=1)
+        ri.save()
+        diet_vegan = Diet.objects.get(name='vegan')
+        self.assertNotIn(diet_vegan, r.diets.all())
