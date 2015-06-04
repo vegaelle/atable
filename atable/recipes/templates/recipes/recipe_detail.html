@@ -1,0 +1,116 @@
+{% extends "recipes/base.html" %}
+{% block title %}{{ recipe | capfirst }}{% endblock %}
+
+{% block content %}
+
+<header>
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li><a href="/recipes">Recipes list</a></li>
+      <li class="active">{{ recipe.name }}</li>
+    </ol>
+    <h1>{{ recipe | capfirst }}</h1>
+</header>
+
+<div class="panel panel-noborder">
+    <div class="panel-body">
+        {% if recipe.diets %}
+        {% for diet in recipe.diets.all %}
+        <span class="diet badge">{{ diet }}</span>
+        {% endfor %}
+        {% else %}
+        <span class="diet badge">Omnivore</span>
+        {% endif %}
+
+    Type : {{ recipe.meal_type }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="{% if recipe.ustensils.all %}col-lg-4 col-md-4{% else %}col-lg-6 col-md-6{% endif %}">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title"><span class="glyphicon glyphicon-shopping-cart"></span> Ingredients <small>( {{ recipe.parts }} parts )</small></h2>
+            </div>
+            <ul class="list-group">
+            {% for recipeingredient in recipe.recipeingredient_set.all %}
+                <li class="list-group-item">{{ recipeingredient.ingredient | capfirst }}: {{ recipeingredient.quantity }} {{ recipeingredient.ingredient.unit }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="{% if recipe.ustensils.all %}col-lg-4 col-md-4{% else %}col-lg-6 col-md-6{% endif %}">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title"><span class="glyphicon glyphicon-time"></span> Duration</h2>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">Preparation time: {{ recipe.preparation_time }}</li>
+                <li class="list-group-item">Cooking time: {{ recipe.cooking_time }}</li>
+            </ul>
+        </div>
+    </div>
+
+    {% if recipe.ustensils.all %}
+    <div class="col-lg-4 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title"><span class="glyphicon glyphicon-cutlery"></span> Ustensils</h2>
+            </div>
+            <ul class="list-group">
+            {% for ustensils in recipe.ustensils.all %}
+                <li class="list-group-item">{{ ustensils | capfirst }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> Instructions</h2>
+    </div>
+    <div class="panel-body">{{ recipe.description }}</div>
+</div>
+
+{% if recipe.parent_recipes.all %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title"><span class="glyphicon glyphicon-paperclip"></span> Parents recipes</h2>
+    </div>
+    <ul class="list-group">
+    {% for parent_recipe in recipe.parent_recipes.all %}
+        <li class="list-group-item">{{ parent_recipes }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> Authorship</h2>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">Author: {{ recipe.author }}</li>
+        <li class="list-group-item">Licence: {{ recipe.licence }}</li>
+    </ul>
+</div>
+
+
+{% if recipe.picture %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title"><span class="glyphicon glyphicon-picture"></span> Image</h2>
+    </div>
+    <div class="panel-body">
+        <img src="{{ recipe.picture.url }}" alt="{{ recipe.name }}" />
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

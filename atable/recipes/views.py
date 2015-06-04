@@ -1,6 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import permission_required
-from .models import Meal, Session
+from django.views.generic import ListView, DetailView
+from .models import Meal, Session, Recipe, RecipeIngredient, Ingredient
+
+class RecipeListView(ListView):
+    model = Recipe
+
+
+class RecipeDetailView(DetailView):
+    model = Recipe
 
 
 @permission_required('meal.can_view')

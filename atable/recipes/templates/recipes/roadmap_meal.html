@@ -1,59 +1,114 @@
+{% extends "recipes/base.html" %}
+{% block title %}Meal roadmap: {{ meal.name }}{% endblock %}
+
+{% block content %}
+
+
 {% load key %}
-<!DOCTYPE html>
-<html>
-	<head>
-        <meta charset="utf-8" />
-		<title>Feuille de route de repas</title>
-	</head>
-	<body>
-        <h1>Feuille de route de repas : {{ meal.name }}</h1>
-        <h2>Liste des plats</h2>
-        <ul>
-        {% with participants=meal.recipe_diet_participants %}
-        {% for recipe in meal.recipes_list %}
-            {% with participant=participants|key:recipe %}
-            <li>
+
+<header>
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li class="active">Meal roadmap: {{ meal.name }}</li>
+    </ol>
+    <h1>Meal roadmap: {{ meal.name }}</h1>
+</header>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">Liste des plats</h2>
+    </div>
+    <ul class="list-group">
+    {% with participants=meal.recipe_diet_participants %}
+    {% for recipe in meal.recipes_list %}
+        {% with participant=participants|key:recipe %}
+        <li class="list-group-item">
+        <div class="row">
+            <div class="col-lg-2">
                 {% if recipe.picture %}
-                <img src="{{ recipe.picture.url }}" alt="{{ recipe }}" width="100" />
+                <a href="{{ recipe.picture.url }}" target="_blank">
+                    <img class="" src="{{ recipe.picture.url }}" alt="{{ recipe }}" />
+                </a>
                 {% endif %}
-                {{ recipe }}
-                (<em>{{ recipe.diets_str }}</em>)
-                {% if participant == 0 %}
-                <strong>Aucun participant ne peut consommer ce plat !</strong>
+            </div>
+            <div class="col-lg-10">
+                {% if recipe.diets %}
+                {% for diet in recipe.diets.all %}
+                <span class="diet badge">{{ diet }}</span>
+                {% endfor %}
                 {% else %}
-                pour {{ participant }} personne{{ participant |  pluralize }}
+                <span class="diet badge">Omnivore</span>
                 {% endif %}
-            </li>
-            {% endwith %}
-        {% endfor %}
+                <h3 class="list-group-item-heading"><a href="/recipes/{{ recipe.id }}">{{ recipe }}</a></h3>
+                <div class="list-group-item-text clearfix">
+                    {% if participant == 0 %}
+                    <p class="text-danger">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        Aucun participant ne peut consommer ce plat !
+                    </p>
+                    {% else %}
+                    <p>
+                    pour {{ participant }} personne{{ participant |  pluralize }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        </li>
         {% endwith %}
-        </ul>
-        <h2>Liste des participants</h2>
-        <ul>
-            {% for participant in meal.participants %}
-            <li>{{ participant.count }} {{ participant.diet_name }}{{ participant.count | pluralize }}
+    {% endfor %}
+    {% endwith %}
+    </ul>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">Liste des participants</h2>
+    </div>
+    <ul class="list-group">
+    {% for participant in meal.participants %}
+        <li class="list-group-item">
+            <h3 class="list-group-item-heading">
+            {{ participant.count }} {{ participant.diet_name }}{{ participant.count | pluralize }}
+            </h3>
+            <div class="list-group-item-text">
                 {% if participant.can_eat|length == 0 %}
-                <p><strong>Ce{{ participant.count | pluralize }}
+                <p class="text-danger">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Ce{{ participant.count | pluralize }}
                         participant{{ participant.count | pluralize }} ne
                         peu{{ participant.count | pluralize:'t,vent' }} rien
-                        manger !</strong></p>
+                        manger !</p>
                 {% else %}
                 <p>Ce{{ participant.count | pluralize }}
                    participant{{ participant.count | pluralize }}
                    peu{{ participant.count | pluralize:'t,vent' }} manger
                    {{ participant.can_eat | join:', ' }}</p>
                 {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
-        <h2>Liste de courses</h2>
-        <table>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">Liste de courses</h2>
+    </div>
+    <div class="panel-group panel-group-table">
+        <table class="table table-striped table-hover ">
             <thead>
-                <tr><th>Ingrédient</th><th>Prix unitaire</th><th>Quantité</th><th>Prix</th></tr>
+                <tr>
+                    <th>Ingrédient</th>
+                    <th>Prix unitaire</th>
+                    <th>Quantité</th>
+                    <th>Prix</th>
+                </tr>
             </thead>
             <tbody>
                 {% for ingredient in meal.ingredients_list %}
-                    <tr><td>{{ ingredient.ingredient }}</td>
+                    <tr>
+                        <td>{{ ingredient.ingredient }}</td>
                         <td>{{ ingredient.ingredient.price }} €</td>
                         <td>{{ ingredient.quantity }} {{ ingredient.ingredient.unit }}</td>
                         <td>{{ ingredient.price }} €</td>
@@ -61,24 +116,33 @@
                 {% endfor %}
             </tbody>
             <tfoot>
-                <tr><td colspan="3">TOTAL</td>
-                    <td><strong>{{ meal.total_price }} €</strong></td></tr>
+                <tr>
+                    <td colspan="3">TOTAL</td><td>{{ meal.total_price }} €</td>
+                </tr>
             </tfoot>
         </table>
-        <h2>Ustensiles</h2>
-        <ul>
-            {% for ustensil in meal.ustensils_list %}
-            <li>{{ ustensil.ustensil }}
-                {% if ustensil.used_in|length > 1 %}
-                <br />Utilisé pour :
-                <ul>
-                    {% for recipe in ustensil.used_in %}
-                    <li>{{ recipe }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
-	</body>
-</html>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">Ustensiles</h2>
+    </div>
+    <ul class="list-group">
+    {% for ustensil in meal.ustensils_list %}
+        <li class="list-group-item">
+            {{ ustensil.ustensil }}
+            {% if ustensil.used_in|length > 1 %}
+            <br />Utilisé pour :
+            <ul>
+                {% for recipe in ustensil.used_in %}
+                <li>{{ recipe }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
