@@ -5,8 +5,8 @@
 
 <header>
     <ol class="breadcrumb">
-      <li><a href="/">Home</a></li>
-      <li><a href="/recipes">Recipes list</a></li>
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'recipe_list' %}">Recipes list</a></li>
       <li class="active">{{ recipe.name }}</li>
     </ol>
     <h1>{{ recipe | capfirst }}</h1>
