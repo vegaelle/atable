@@ -51,8 +51,11 @@ class RecipeIngredient(models.Model):
     quantity = models.IntegerField(verbose_name='quantité')
 
     def __str__(self):
-        return '{recipe} — {ingredient}'.format(recipe=self.recipe,
-                                                ingredient=self.ingredient)
+        if self.recipe and self.ingredient:
+            return '{recipe} — {ingredient}'\
+                .format(recipe=self.recipe, ingredient=self.ingredient)
+        else:
+            return 'Ingrédient de recette'
 
     class Meta:
         verbose_name = 'ingrédient de recette'
@@ -110,8 +113,7 @@ class Recipe(models.Model):
         return self.name
 
     def get_diets(self):
-        """ return the list of diets for this recipe as a comma-separated
-        string.
+        """ return the list of diets for this recipe.
         """
         diets = [[d for d in i.diets.all()]
                  for i in self.ingredients.all()]
@@ -124,10 +126,6 @@ class Recipe(models.Model):
             if cur_diet not in total_diets:
                 self.diets.remove(cur_diet)
         self.diets.add(*total_diets)
-
-        # update diets in related sessions
-        # for session in self.session_set.all():
-        #     session.get_diets()
 
     def diets_str(self):
         diets = [d.name for d in self.diets.all()]
@@ -167,7 +165,7 @@ class MealParticipant(models.Model):
         if self.diet is None:
             return self.meal.recipes.all()
         return [r for r in self.meal.recipes.all()
-                if self.diet in r.diets()]
+                if self.diet in r.diets.all()]
 
     def __str__(self):
         return '{meal} — {count} × {diet}'.format(meal=self.meal,
@@ -189,7 +187,6 @@ class Meal(models.Model):
                            help_text='Entrez l’heure de fin, au format '
                            'HH:MM:SS')
     recipes = models.ManyToManyField(Recipe, verbose_name='recettes')
-    diets = models.ManyToManyField(Diet, verbose_name='régimes')
 
     def __str__(self):
         return self.name
@@ -264,7 +261,7 @@ class Meal(models.Model):
         for recipe in self.recipes.all():
             if recipe not in participants:
                 participants[recipe] = omni_participants_count
-            diets = recipe.diets()
+            diets = recipe.diets.all()
             for diet in diets:
                 participants[recipe] += sum([p.count for p in
                                              self.mealparticipant_set
