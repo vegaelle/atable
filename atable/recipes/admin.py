@@ -19,6 +19,8 @@ class SessionMealInline(admin.TabularInline):
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'diets_str')
     exclude = ['diets']
+    list_filter = ('diets__name',)
+    search_fields = ['name', 'diets__name']
 
 
 @admin.register(Recipe)
@@ -26,6 +28,8 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = ('name', 'diets_str', 'price', 'meal_type', 'parts')
     exclude = ['diets']
     inlines = [RecipeIngredientInline, ]
+    list_filter = ('diets__name', 'meal_type')
+    search_fields = ['name', 'meal_type', 'diets__name', 'description']
 
 
 @admin.register(Meal)
@@ -34,7 +38,7 @@ class MealAdmin(admin.ModelAdmin):
     inlines = [MealParticipantInline, ]
     list_display = ('name', 'participants_count', 'begin', 'end',
                     'admin_roadmap')
-    list_filter = ('recipes__ingredients__diets__name',)
+    search_fields = ['name', 'recipes__name']
 
 
 @admin.register(Session)
