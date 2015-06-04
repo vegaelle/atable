@@ -17,11 +17,7 @@
                 <img src="{{ recipe.picture.url }}" alt="{{ recipe }}" width="100" />
                 {% endif %}
                 {{ recipe }}
-                {% if recipe.diets %}
-                (<em>{{ recipe.diets | join:', ' }}</em>)
-                {% else %}
-                (<em>Omnivore</em>)
-                {% endif %}
+                (<em>{{ recipe.diets_str }}</em>)
                 {% if participant == 0 %}
                 <strong>Aucun participant ne peut consommer ce plat !</strong>
                 {% else %}

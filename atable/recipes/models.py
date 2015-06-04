@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from math import ceil
 from django.db import models
 from django.conf import settings
@@ -180,13 +181,9 @@ class MealParticipant(models.Model):
 class Meal(models.Model):
 
     name = models.CharField(max_length=100, verbose_name='nom')
-    begin = models.TimeField(verbose_name='heure de début',
-                             help_text='Entrez l’heure de début, au format '
-                             'HH:MM:SS')
-    end = models.TimeField(verbose_name='heure de fin',
-                           help_text='Entrez l’heure de fin, au format '
-                           'HH:MM:SS')
+    date = models.DateTimeField(verbose_name='Date et heure')
     recipes = models.ManyToManyField(Recipe, verbose_name='recettes')
+    session = models.ForeignKey('Session', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -219,10 +216,11 @@ class Meal(models.Model):
             parts_count = self.recipe_diet_participants()[recipe]
             recipe_count = ceil(parts_count / recipe.parts)
             for recipe_ingredient in recipe.recipeingredient_set.all():
-                if recipe_ingredient.ingredient not in ingredients:
-                    ingredients[recipe_ingredient.ingredient] = 0
-                ingredients[recipe_ingredient.ingredient] += \
-                    recipe_ingredient.quantity * recipe_count
+                if recipe_ingredient.quantity * recipe_count > 0:
+                    if recipe_ingredient.ingredient not in ingredients:
+                        ingredients[recipe_ingredient.ingredient] = 0
+                    ingredients[recipe_ingredient.ingredient] += \
+                        recipe_ingredient.quantity * recipe_count
 
         ingredients_list = []
         for ingredient, quantity in ingredients.items():
@@ -306,28 +304,9 @@ class Meal(models.Model):
         verbose_name_plural = 'repas'
 
 
-class SessionMeal(models.Model):
-
-    session = models.ForeignKey('Session', verbose_name='session')
-    meal = models.ForeignKey(Meal, verbose_name='repas')
-    date = models.DateField(verbose_name='date')
-
-    def __str__(self):
-        return '[{date}] {meal} pour {session}'.format(
-            date=self.date.strftime(settings.DEFAULT_DATE_FORMAT),
-            meal=self.meal,
-            session=self.session)
-
-    class Meta:
-        verbose_name = 'repas de session'
-        verbose_name_plural = 'repas de session'
-
-
 class Session(models.Model):
 
     name = models.CharField(max_length=100, verbose_name='nom')
-    meals = models.ManyToManyField(Meal, through=SessionMeal,
-                                   verbose_name='repas')
 
     def calendar(self):
         """generates calendars representing all meals in the session, as a list
@@ -337,15 +316,15 @@ class Session(models.Model):
         """
         cur_month = None
 
-        meals = self.sessionmeal_set.order_by('date')
+        meals = self.meal_set.order_by('date')
         meals_dates = {}
         meals_count = 0
         for meal in meals:
             cur_month = meal.date if cur_month is None else cur_month
             meals_count += 1
             if meal.date not in meals_dates:
-                meals_dates[meal.date] = []
-            meals_dates[meal.date].append(meal.meal)
+                meals_dates[meal.date.date()] = []
+            meals_dates[meal.date.date()].append(meal)
 
         months = []
 
@@ -370,9 +349,9 @@ class Session(models.Model):
         Ingredient itself, the quantity needed, and the total price of that
         ingredient.
         """
-        ingredients = {}
-        for sessionmeal in self.sessionmeal_set.order_by('date'):
-            for ingredient in sessionmeal.meal.ingredients_list():
+        ingredients = OrderedDict()
+        for meal in self.meal_set.order_by('date'):
+            for ingredient in meal.ingredients_list():
                 if ingredient['ingredient'] in ingredients:
                     ingredients[ingredient['ingredient']]['quantity'] += \
                         ingredient['quantity']
@@ -381,7 +360,7 @@ class Session(models.Model):
                 else:
                     ingredients[ingredient['ingredient']] = ingredient
                     ingredients[ingredient['ingredient']]['date'] = \
-                        sessionmeal.date
+                        meal.date
         ingredients_list = [i for i in ingredients.values()]
         return ingredients_list
 
@@ -392,6 +371,11 @@ class Session(models.Model):
         """
         price = sum([i['price'] for i in self.ingredients_list()])
         return price
+
+    def meals(self):
+        """returns the Meal list, ordered by date.
+        """
+        return self.meal_set.order_by('date')
 
     def admin_roadmap(self):
         return '<a href="{url}" title="Générer la feuille de route" '\

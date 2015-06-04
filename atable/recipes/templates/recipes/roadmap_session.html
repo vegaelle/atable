@@ -33,7 +33,7 @@
                             <thead><tr><th>{{ day.date | date:'d' }}</th></tr></thead>
                             {% for meal in day.meals %}
                             <tr>
-                                <td>{{ meal }} ({{ meal.begin }} - {{ meal.end }})</td>
+                                <td>{{ meal }} ({{ meal.date.time }})</td>
                             </tr>
                             {% endfor %}
                         </table>
@@ -66,10 +66,10 @@
             </tfoot>
         </table>
         <h2>Ustensiles</h2>
-        {% for meal in session.sessionmeal_set.all %}
-        <h3>Pour {{ meal.meal }} ({{ meal.date | date:'DATE_FORMAT' }})</h3>
+        {% for meal in session.meals %}
+        <h3>Pour {{ meal }} ({{ meal.date | date:'DATE_FORMAT' }})</h3>
         <ul>
-            {% for ustensil in meal.meal.ustensils_list %}
+            {% for ustensil in meal.ustensils_list %}
             <li>{{ ustensil.ustensil }}
                 {% if ustensil.used_in|length > 1 %}
                 <br />Utilisé pour :

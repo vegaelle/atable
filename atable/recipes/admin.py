@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (Diet, Ingredient, Meal, Recipe, Session, Ustensil,
-                     MealParticipant, RecipeIngredient, SessionMeal)
+                     MealParticipant, RecipeIngredient)
 
 
 class RecipeIngredientInline(admin.TabularInline):
@@ -12,7 +12,7 @@ class MealParticipantInline(admin.TabularInline):
 
 
 class SessionMealInline(admin.TabularInline):
-    model = SessionMeal
+    model = Meal
 
 
 @admin.register(Ingredient)
@@ -36,7 +36,7 @@ class RecipeAdmin(admin.ModelAdmin):
 class MealAdmin(admin.ModelAdmin):
     filter_horizontal = ('recipes',)
     inlines = [MealParticipantInline, ]
-    list_display = ('name', 'participants_count', 'begin', 'end',
+    list_display = ('name', 'participants_count', 'date',
                     'admin_roadmap')
     search_fields = ['name', 'recipes__name']
 
@@ -44,11 +44,10 @@ class MealAdmin(admin.ModelAdmin):
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
     list_display = ('name', 'admin_roadmap')
-    inlines = [SessionMealInline, ]
+    inlines = [SessionMealInline]
 
 
 admin.site.register(Diet)
 admin.site.register(Ustensil)
 # admin.site.register(MealParticipant)
 # admin.site.register(RecipeIngredient)
-# admin.site.register(SessionMeal)
