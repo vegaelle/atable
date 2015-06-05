@@ -39,7 +39,7 @@
                 {% endif %}
                 <h2 class="list-group-item-heading"><a href="/recipes/{{ recipe.id }}">{{ recipe }}</a></h2>
                 <div class="list-group-item-text clearfix">
-                    <strong>Type:</strong> {{ recipe.meal_type }}<br />
+                    <strong>Type:</strong> {{ recipe.get_meal_type_display }}<br />
                     {% if recipe.preparation_time %}
                     <strong>Preparation time:</strong> {{ recipe.preparation_time }}<br />
                     {% endif %}
