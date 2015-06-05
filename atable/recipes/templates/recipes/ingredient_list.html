@@ -5,29 +5,29 @@
 
 <header>
     <ol class="breadcrumb">
-      <li><a href="{% url 'home' %}">Home</a></li>
-      <li class="active">Ingredients list</li>
+      <li><a href="{% url 'home' %}">Accueil</a></li>
+      <li class="active">Liste des ingrédients</li>
     </ol>
-    <h1>Ingredients list</h1>
+    <h1>Liste des ingrédients</h1>
 </header>
 
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h2 class="panel-title">Ingredients list</h2>
+        <h2 class="panel-title">Liste des ingrédients</h2>
     </div>
     {% if ingredient_list %}
     <ul class="list-group">
     {% for ingredient in ingredient_list %}
     <li class="list-group-item">
-        {% if ingredient.diets %}
+        {% if ingredient.diets.count %}
         {% for diet in ingredient.diets.all %}
         <span class="diet badge">{{ diet }}</span>
         {% endfor %}
         {% else %}
         <span class="diet badge">Omnivore</span>
         {% endif %}
-        <h2 class="list-group-item-heading"><a href="/ingredients/{{ ingredient.id }}">{{ ingredient }}</a></h2>
+        <h2 class="list-group-item-heading"><a href="{{ ingredient.get_absolute_url }}">{{ ingredient }}</a></h2>
     </li>
     {% endfor %}
     </ul>

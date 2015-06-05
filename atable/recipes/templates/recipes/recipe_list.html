@@ -5,16 +5,16 @@
 
 <header>
     <ol class="breadcrumb">
-      <li><a href="{% url 'home' %}">Home</a></li>
-      <li class="active">Recipes list</li>
+      <li><a href="{% url 'home' %}">Accueil</a></li>
+      <li class="active">Liste des recettes</li>
     </ol>
-    <h1>Recipes list</h1>
+    <h1>Liste des recettes</h1>
 </header>
 
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h2 class="panel-title">Recipes list</h2>
+        <h2 class="panel-title">Liste des recettes</h2>
     </div>
     {% if recipe_list %}
     <ul class="list-group">
@@ -30,21 +30,21 @@
                 {% endif %}
             </div>
             <div class="col-lg-10">
-                {% if recipe.diets %}
+                {% if recipe.diets.count %}
                 {% for diet in recipe.diets.all %}
                 <span class="diet badge">{{ diet }}</span>
                 {% endfor %}
                 {% else %}
                 <span class="diet badge">Omnivore</span>
                 {% endif %}
-                <h2 class="list-group-item-heading"><a href="/recipes/{{ recipe.id }}">{{ recipe }}</a></h2>
+                <h2 class="list-group-item-heading"><a href="{{ recipe.get_absolute_url }}">{{ recipe }}</a></h2>
                 <div class="list-group-item-text clearfix">
-                    <strong>Type:</strong> {{ recipe.get_meal_type_display }}<br />
+                    <strong>Type :</strong> {{ recipe.get_meal_type_display }}<br />
                     {% if recipe.preparation_time %}
-                    <strong>Preparation time:</strong> {{ recipe.preparation_time }}<br />
+                    <strong>Temps de préparation :</strong> {{ recipe.preparation_time }}<br />
                     {% endif %}
                     {% if recipe.cooking_time %}
-                    <strong>Cooking time:</strong> {{ recipe.cooking_time }}
+                    <strong>Temps de cuisson :</strong> {{ recipe.cooking_time }}
                     {% endif %}
             </div>
         </div>

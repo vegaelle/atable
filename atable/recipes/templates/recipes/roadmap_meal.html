@@ -8,10 +8,10 @@
 
 <header>
     <ol class="breadcrumb">
-      <li><a href="{% url 'home' %}">Home</a></li>
-      <li class="active">Meal roadmap: {{ meal.name }}</li>
+      <li><a href="{% url 'home' %}">Accueil</a></li>
+      <li class="active">Feuille de route : {{ meal.name }}</li>
     </ol>
-    <h1>Meal roadmap: {{ meal.name }}</h1>
+    <h1>Feuille de route : {{ meal.name }}</h1>
 </header>
 
 <div class="panel panel-default">
@@ -32,7 +32,7 @@
                 {% endif %}
             </div>
             <div class="col-lg-10">
-                {% if recipe.diets %}
+                {% if recipe.diets.count %}
                 {% for diet in recipe.diets.all %}
                 <span class="diet badge">{{ diet }}</span>
                 {% endfor %}

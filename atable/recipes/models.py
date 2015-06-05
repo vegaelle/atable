@@ -41,6 +41,9 @@ class Ingredient(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return resolve_url('ingredient_detail', pk=self.pk)
+
     class Meta:
         verbose_name = 'ingrédient'
 
@@ -143,6 +146,9 @@ class Recipe(models.Model):
                 recipe_ingredient.quantity
         return '{} €'.format(price)  # TODO: the currency should be dynamic
     price.short_description = 'prix'
+
+    def get_absolute_url(self):
+        return resolve_url('recipe_detail', pk=self.pk)
 
     class Meta:
         verbose_name = 'recette'

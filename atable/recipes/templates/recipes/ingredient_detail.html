@@ -5,8 +5,8 @@
 
 <header>
     <ol class="breadcrumb">
-      <li><a href="{% url 'home' %}">Home</a></li>
-      <li><a href="{% url 'ingredient_list' %}">Ingredients list</a></li>
+      <li><a href="{% url 'home' %}">Accueil</a></li>
+      <li><a href="{% url 'ingredient_list' %}">Liste des ingrédients</a></li>
       <li class="active">{{ ingredient.name }}</li>
     </ol>
     <h1>{{ ingredient.name | capfirst }}</h1>
@@ -14,7 +14,7 @@
 
 <div class="panel panel-noborder">
     <div class="panel-body">
-        {% if ingredient.diets %}
+        {% if ingredient.diets.count %}
         {% for diet in ingredient.diets.all %}
         <span class="diet badge">{{ diet }}</span>
         {% endfor %}

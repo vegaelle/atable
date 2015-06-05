@@ -5,8 +5,8 @@
 
 <header>
     <ol class="breadcrumb">
-      <li><a href="{% url 'home' %}">Home</a></li>
-      <li><a href="{% url 'recipe_list' %}">Recipes list</a></li>
+      <li><a href="{% url 'home' %}">Accueil</a></li>
+      <li><a href="{% url 'recipe_list' %}">Liste des recettes</a></li>
       <li class="active">{{ recipe.name }}</li>
     </ol>
     <h1>{{ recipe.name | capfirst }}</h1>
@@ -14,7 +14,7 @@
 
 <div class="panel panel-noborder">
     <div class="panel-body">
-        {% if recipe.diets %}
+        {% if recipe.diets.count %}
         {% for diet in recipe.diets.all %}
         <span class="diet badge">{{ diet }}</span>
         {% endfor %}
@@ -30,11 +30,11 @@
     <div class="{% if recipe.ustensils.all %}col-lg-4 col-md-4{% else %}col-lg-6 col-md-6{% endif %}">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title"><span class="glyphicon glyphicon-shopping-cart"></span> Ingredients <small>( {{ recipe.parts }} parts )</small></h2>
+                <h2 class="panel-title"><span class="glyphicon glyphicon-shopping-cart"></span> Ingrédients <small>( {{ recipe.parts }} personne{{ recipe.parts | pluralize }} )</small></h2>
             </div>
             <ul class="list-group">
             {% for recipeingredient in recipe.recipeingredient_set.all %}
-                <li class="list-group-item">{{ recipeingredient.ingredient | capfirst }}: {{ recipeingredient.quantity }} {{ recipeingredient.ingredient.unit }}</li>
+                <li class="list-group-item"><a href="{{ recipeingredient.ingredient.get_absolute_url }}">{{ recipeingredient.ingredient | capfirst }}</a>: {{ recipeingredient.quantity }} {{ recipeingredient.ingredient.unit }}</li>
             {% endfor %}
             </ul>
         </div>
@@ -43,11 +43,11 @@
     <div class="{% if recipe.ustensils.all %}col-lg-4 col-md-4{% else %}col-lg-6 col-md-6{% endif %}">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title"><span class="glyphicon glyphicon-time"></span> Duration</h2>
+                <h2 class="panel-title"><span class="glyphicon glyphicon-time"></span> Durée</h2>
             </div>
             <ul class="list-group">
-                <li class="list-group-item">Preparation time: {{ recipe.preparation_time }}</li>
-                <li class="list-group-item">Cooking time: {{ recipe.cooking_time }}</li>
+                <li class="list-group-item">Temps de préparation : {% if not recipe.preparation_time %}Aucun{% else %}{{ recipe.preparation_time }}{% endif %}</li>
+                <li class="list-group-item">Temps de cuisson : {% if not recipe.cooking_time %}Aucun{% else %}{{ recipe.cooking_time }}{% endif %}</li>
             </ul>
         </div>
     </div>
@@ -56,11 +56,11 @@
     <div class="col-lg-4 col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title"><span class="glyphicon glyphicon-cutlery"></span> Ustensils</h2>
+                <h2 class="panel-title"><span class="glyphicon glyphicon-cutlery"></span> Ustensiles</h2>
             </div>
             <ul class="list-group">
-            {% for ustensils in recipe.ustensils.all %}
-                <li class="list-group-item">{{ ustensils | capfirst }}</li>
+            {% for ustensil in recipe.ustensils.all %}
+                <li class="list-group-item">{{ ustensil | capfirst }}</li>
             {% endfor %}
             </ul>
         </div>
@@ -76,14 +76,14 @@
     <div class="panel-body">{{ recipe.description }}</div>
 </div>
 
-{% if recipe.parent_recipes.all %}
+{% if recipe.parent_recipes.count %}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h2 class="panel-title"><span class="glyphicon glyphicon-paperclip"></span> Parents recipes</h2>
+        <h2 class="panel-title"><span class="glyphicon glyphicon-paperclip"></span> Recettes de base</h2>
     </div>
     <ul class="list-group">
     {% for parent_recipe in recipe.parent_recipes.all %}
-        <li class="list-group-item">{{ parent_recipes }}</li>
+        <li class="list-group-item"><a href="{{ parent_recipe.get_absolute_url }}">{{ parent_recipe }}</a></li>
     {% endfor %}
     </ul>
 </div>
@@ -93,11 +93,11 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h2 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> Authorship</h2>
+        <h2 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> Appartenance</h2>
     </div>
     <ul class="list-group">
-        <li class="list-group-item">Author: {{ recipe.author }}</li>
-        <li class="list-group-item">Licence: {{ recipe.licence }}</li>
+        <li class="list-group-item">Auteur·e : {{ recipe.author }}</li>
+        <li class="list-group-item">Licence : {{ recipe.licence }}</li>
     </ul>
 </div>
 
