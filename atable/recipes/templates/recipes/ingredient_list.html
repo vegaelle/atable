@@ -1,0 +1,37 @@
+{% extends "recipes/base.html" %}
+{% block title %}Ingredients list{% endblock %}
+
+{% block content %}
+
+<header>
+    <ol class="breadcrumb">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li class="active">Ingredients list</li>
+    </ol>
+    <h1>Ingredients list</h1>
+</header>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">Ingredients list</h2>
+    </div>
+    {% if ingredient_list %}
+    <ul class="list-group">
+    {% for ingredient in ingredient_list %}
+    <li class="list-group-item">
+        {% if ingredient.diets %}
+        {% for diet in ingredient.diets.all %}
+        <span class="diet badge">{{ diet }}</span>
+        {% endfor %}
+        {% else %}
+        <span class="diet badge">Omnivore</span>
+        {% endif %}
+        <h2 class="list-group-item-heading"><a href="/ingredients/{{ ingredient.id }}">{{ ingredient }}</a></h2>
+    </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+{% endblock %}

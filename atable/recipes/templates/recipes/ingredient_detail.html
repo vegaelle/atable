@@ -1,0 +1,28 @@
+{% extends "recipes/base.html" %}
+{% block title %}{{ ingredient.name | capfirst }}{% endblock %}
+
+{% block content %}
+
+<header>
+    <ol class="breadcrumb">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'ingredient_list' %}">Ingredients list</a></li>
+      <li class="active">{{ ingredient.name }}</li>
+    </ol>
+    <h1>{{ ingredient.name | capfirst }}</h1>
+</header>
+
+<div class="panel panel-noborder">
+    <div class="panel-body">
+        {% if ingredient.diets %}
+        {% for diet in ingredient.diets.all %}
+        <span class="diet badge">{{ diet }}</span>
+        {% endfor %}
+        {% else %}
+        <span class="diet badge">Omnivore</span>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}
