@@ -1,5 +1,5 @@
 {% extends "recipes/base.html" %}
-{% block title %}{{ recipe | capfirst }}{% endblock %}
+{% block title %}{{ recipe.name | capfirst }}{% endblock %}
 
 {% block content %}
 
@@ -9,7 +9,7 @@
       <li><a href="{% url 'recipe_list' %}">Recipes list</a></li>
       <li class="active">{{ recipe.name }}</li>
     </ol>
-    <h1>{{ recipe | capfirst }}</h1>
+    <h1>{{ recipe.name | capfirst }}</h1>
 </header>
 
 <div class="panel panel-noborder">
