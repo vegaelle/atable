@@ -3,6 +3,14 @@ from django.contrib.auth.decorators import permission_required
 from django.views.generic import ListView, DetailView
 from .models import Meal, Session, Recipe, RecipeIngredient, Ingredient
 
+class IngredientListView(ListView):
+    model = Ingredient
+
+
+class IngredientDetailView(DetailView):
+    model = Ingredient
+
+
 class RecipeListView(ListView):
     model = Recipe
 
