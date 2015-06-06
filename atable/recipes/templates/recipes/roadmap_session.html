@@ -21,7 +21,7 @@
         {% if session.calendar %}
         {% for month in session.calendar %}
         <table class="table calendar">
-            <caption class="h3">{{ month.month | date:'F' }}</caption>
+            <caption class="h3">{{ month.month | date:'F Y' }}</caption>
             <thead>
                 <tr><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th>
                     <th>Vendredi</th><th>Samedi</th><th>Dimanche</th>
