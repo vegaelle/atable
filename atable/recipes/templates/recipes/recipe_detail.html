@@ -97,7 +97,7 @@
     </div>
     <ul class="list-group">
         <li class="list-group-item">Auteur·e : {{ recipe.author }}</li>
-        <li class="list-group-item">Licence : {{ recipe.licence }}</li>
+        <li class="list-group-item">Licence : {{ recipe.licence | safe }}</li>
     </ul>
 </div>
 
