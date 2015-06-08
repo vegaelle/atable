@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-lg-2">
                 {% if recipe.picture %}
-                <a href="{{ recipe.picture.url }}" target="_blank">
+                <a href="{{ recipe.get_absolute_url }}">
                     {% thumbnail recipe.picture "160x160" crop="center" as picture %}
                     <img class="" src="{{ picture.url }}" alt="{{ recipe }}" />
                     {% endthumbnail %}
