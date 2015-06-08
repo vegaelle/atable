@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django import forms
+from sorl.thumbnail.admin import AdminImageMixin
 from .models import (Diet, Ingredient, Meal, Recipe, Session, Ustensil,
                      MealParticipant, RecipeIngredient, ParentRecipe)
 
@@ -44,8 +45,9 @@ class IngredientAdmin(admin.ModelAdmin):
 
 
 @admin.register(Recipe)
-class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'diets_str', 'price', 'meal_type', 'parts')
+class RecipeAdmin(AdminImageMixin, admin.ModelAdmin):
+    list_display = ('name', 'diets_str', 'price', 'meal_type', 'parts',
+                    'picture_str')
     filter_horizontal = ('ustensils',)
     exclude = ['diets']
     inlines = [RecipeIngredientInline, ParentRecipeInline]

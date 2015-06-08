@@ -1,4 +1,5 @@
 {% extends "recipes/base.html" %}
+{% load thumbnail %}
 {% block title %}{{ recipe.name | capfirst }}{% endblock %}
 
 {% block content %}
@@ -108,7 +109,9 @@
         <h2 class="panel-title"><span class="glyphicon glyphicon-picture"></span> Image</h2>
     </div>
     <div class="panel-body">
-        <img src="{{ recipe.picture.url }}" alt="{{ recipe.name }}" />
+        {% thumbnail recipe.picture "400x400" as picture %}
+        <img src="{{ picture.url }}" alt="{{ recipe.name }}" />
+        {% endthumbnail %}
     </div>
 </div>
 {% endif %}

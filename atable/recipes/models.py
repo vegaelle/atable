@@ -5,6 +5,7 @@ from django.conf import settings
 from django.shortcuts import resolve_url
 from calendar import Calendar
 from dateutils import relativedelta
+from sorl.thumbnail import ImageField, get_thumbnail
 from .decorators import method_cache
 
 
@@ -98,8 +99,7 @@ class Recipe(models.Model):
                                  verbose_name='type de recette',
                                  )
     parts = models.IntegerField(verbose_name='nombre de parts')
-    picture = models.ImageField(upload_to='recipe', verbose_name='image',
-                                blank=True)
+    picture = ImageField(upload_to='recipe', verbose_name='image', blank=True)
     preparation_time = models.DurationField(null=True, blank=True,
                                             verbose_name='temps de '
                                             'préparation',
@@ -131,6 +131,15 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.name
+
+    def picture_str(self):
+        thumb = get_thumbnail(self.picture, '100x100', crop='center')
+        if thumb:
+            return '<img src="{}" />'.format(thumb.url)
+        else:
+            return ''
+    picture_str.short_description = 'Image'
+    picture_str.allow_tags = True
 
     def get_diets(self):
         """ return the list of diets for this recipe.

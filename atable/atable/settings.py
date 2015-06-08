@@ -41,8 +41,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'recipes',
     'gunicorn',
+    'sorl.thumbnail',
+    'recipes',
 )
 
 MIDDLEWARE_CLASSES = (
