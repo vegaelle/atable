@@ -56,6 +56,11 @@ content of the new file. Then, type:
     ./manage.py migrate
     ./manage.py createsuperuser
 
+The production environment also have more dependencies, so, instead of
+installing `requirements.txt`, you should type this:
+
+    pip install -r requirements-prod.txt
+
 The Django app is ready to serve. You now have to make it run with the supplied
 Gunicorn, one way or another. We suggest `supervisor`, and [this nice guide (in
 french)](http://www.miximum.fr/deployer-django-en-production-nginx-gunicorn-supervisor.html) 
