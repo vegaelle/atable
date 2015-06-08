@@ -46,6 +46,7 @@ class IngredientAdmin(admin.ModelAdmin):
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('name', 'diets_str', 'price', 'meal_type', 'parts')
+    filter_horizontal = ('ustensils',)
     exclude = ['diets']
     inlines = [RecipeIngredientInline, ParentRecipeInline]
     list_filter = ('diets__name', 'meal_type')
