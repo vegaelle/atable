@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 from .models import (Diet, Ingredient, Meal, Recipe, Session, Ustensil,
                      MealParticipant, RecipeIngredient, ParentRecipe)
 
@@ -19,6 +20,19 @@ class ParentRecipeInline(admin.TabularInline):
     model = ParentRecipe
     fk_name = 'child'
     extra = 1
+
+
+class DietIngredientsForm(forms.ModelForm):
+    ingredients = forms\
+        .ModelMultipleChoiceField(label='Ingrédients',
+                                  queryset=Ingredient.objects.all(),
+                                  required=False,
+                                  help_text='Sélectionnez les ingrédients '
+                                            'compatibles',
+                                  widget=admin.widgets
+                                  .FilteredSelectMultiple('ingredients',
+                                                          False)
+                                  )
 
 
 @admin.register(Ingredient)
@@ -53,7 +67,25 @@ class SessionAdmin(admin.ModelAdmin):
     inlines = [SessionMealInline]
 
 
-admin.site.register(Diet)
+@admin.register(Diet)
+class DietAdmin(admin.ModelAdmin):
+    form = DietIngredientsForm
+
+    def get_form(self, request, obj=None, **kwargs):
+        if obj:
+            self.form.base_fields['ingredients'].initial = \
+                [o.pk for o in obj.ingredient_set.all()]
+        else:
+            self.form.base_fields['ingredients'].initial = []
+        return super().get_form(request, obj, **kwargs)
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        obj.ingredient_set.clear()
+        for ingredient in form.cleaned_data['ingredients']:
+            obj.ingredient_set.add(ingredient)
+
+
 admin.site.register(Ustensil)
 # admin.site.register(MealParticipant)
 # admin.site.register(RecipeIngredient)
