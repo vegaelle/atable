@@ -109,9 +109,11 @@
         <h2 class="panel-title"><span class="glyphicon glyphicon-picture"></span> Image</h2>
     </div>
     <div class="panel-body">
-        {% thumbnail recipe.picture "400x400" as picture %}
-        <img src="{{ picture.url }}" alt="{{ recipe.name }}" />
-        {% endthumbnail %}
+        <a href="{{ recipe.picture.url }}" class="recipe-picture-link">
+            {% thumbnail recipe.picture "400x400" as picture %}
+            <img src="{{ picture.url }}" alt="{{ recipe.name }}" />
+            {% endthumbnail %}
+        </a>
     </div>
 </div>
 {% endif %}
