@@ -77,6 +77,16 @@ class Ustensil(models.Model):
         verbose_name = 'ustensile'
 
 
+class ParentRecipe(models.Model):
+    parent = models.ForeignKey('Recipe', verbose_name='recette parente',
+                               related_name='childrecipe_set')
+    child = models.ForeignKey('Recipe', verbose_name='recette enfant',
+                              related_name='parentrecipe_set')
+
+    class Meta:
+        verbose_name = 'recette parente'
+        verbose_name_plural = 'recettes parentes'
+
 class Recipe(models.Model):
 
     name = models.CharField(max_length=100, verbose_name='nom')
@@ -106,7 +116,11 @@ class Recipe(models.Model):
     author = models.CharField(max_length=100, verbose_name='auteur',
                               default=settings.DEFAULT_RECIPE_AUTHOR)
     parent_recipes = models.ManyToManyField('self', blank=True,
-                                            verbose_name='recettes de base')
+                                            verbose_name='recettes de base',
+                                            through=ParentRecipe,
+                                            through_fields=('child', 'parent'),
+                                            symmetrical=False,
+                                            related_name='children_recipes')
     ingredients = models.ManyToManyField(Ingredient, through=RecipeIngredient,
                                          verbose_name='ingrédients')
     ustensils = models.ManyToManyField(Ustensil, blank=True,
