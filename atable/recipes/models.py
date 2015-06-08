@@ -87,11 +87,13 @@ class ParentRecipe(models.Model):
         verbose_name = 'recette parente'
         verbose_name_plural = 'recettes parentes'
 
+
 class Recipe(models.Model):
 
     name = models.CharField(max_length=100, verbose_name='nom')
     meal_type = models.CharField(max_length=10,
-                                 choices=(('meal', 'plat'),
+                                 choices=(('starter', 'entrée'),
+                                          ('meal', 'plat'),
                                           ('dessert', 'dessert')),
                                  verbose_name='type de recette',
                                  )
