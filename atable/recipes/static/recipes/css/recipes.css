@@ -1,3 +1,37 @@
-td.disabled {
-    background-color: silver;
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+/* Diet badges */
+.badge.diet {
+    float: right;
+}
+.badge.diet + .badge {margin-right: 10px;}
+
+/* panels override */
+.panel-noborder,
+.panel-noborder .panel-body {
+    box-shadow: none;
+}
+
+
+/* Tables */
+.panel-group-table {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+
+/* Calendar */
+.calendar {}
+
+.day-number {color: #333;}
+.day--disabled .day-number {color: #ddd;}
+.day--with-meal .day-number {font-weight: bold;}
+
+.calendar caption {
+    /*font-size: */
 }
