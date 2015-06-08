@@ -19,12 +19,26 @@
     </div>
     <div class="panel-group panel-group-table">
         {% if session.calendar %}
+        <div class="row">
         {% for month in session.calendar %}
+        {% if session.calendar|length == 1 %}
+        <div class="col-lg-6">
+        {% elif session.calendar|length == 2%}
+        <div class="col-lg-6 col-md-6">
+        {% else %}
+        <div class="col-lg-4 col-md-6">
+        {% endif %}
         <table class="table calendar">
             <caption class="h3">{{ month.month | date:'F Y' }}</caption>
             <thead>
-                <tr><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th>
-                    <th>Vendredi</th><th>Samedi</th><th>Dimanche</th>
+                <tr>
+                    <th>Lun</th>
+                    <th>Mar</th>
+                    <th>Mer</th>
+                    <th>Jeu</th>
+                    <th>Ven</th>
+                    <th>Sam</th>
+                    <th>Dim</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,7 +61,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
         {% endfor %}
+        </div>
         {% endif %}
     </div>
 </div>

@@ -26,12 +26,39 @@
 
 
 /* Calendar */
-.calendar {}
+.calendar {
+    font-size: small;
+}
 
-.day-number {color: #333;}
+.calendar thead tr th,
+.calendar tbody tr td {
+    padding: 4px;
+}
+.calendar thead tr th {
+    text-align: right;
+}
+.calendar tbody tr td + td {
+    border-left: 1px solid;
+}
+.calendar tbody tr td,
+.calendar tbody tr td + td {
+    border-color: #eee;
+}
+
+.calendar td.day {height: 3em;}
+.calendar td.day--with-meal {height: auto}
+
+.day-number {
+    display: block;
+    color: #333;
+    text-align: right;
+}
 .day--disabled .day-number {color: #ddd;}
 .day--with-meal .day-number {font-weight: bold;}
 
+.day p {margin: 0.5em 0;}
+
 .calendar caption {
-    /*font-size: */
+    margin-bottom: 0;
+    text-align: center;
 }
