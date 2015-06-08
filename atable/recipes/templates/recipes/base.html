@@ -4,3 +4,11 @@
 {% block extra_css %}
 <link href="{% static 'recipes/css/recipes.css' %}" media="all" rel="stylesheet">
 {% endblock %}
+
+{% block page-header %}
+<h1>
+    <a href="{% url 'home' %}">À TABLE</a>
+    <small>Gestion de cantines collectives</small>
+</h1>
+{% endblock %}
+
