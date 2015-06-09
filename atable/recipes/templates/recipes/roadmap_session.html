@@ -21,13 +21,7 @@
         {% if session.calendar %}
         <div class="row">
         {% for month in session.calendar %}
-        {% if session.calendar|length == 1 %}
-        <div class="col-lg-6">
-        {% elif session.calendar|length == 2%}
         <div class="col-lg-6 col-md-6">
-        {% else %}
-        <div class="col-lg-4 col-md-6">
-        {% endif %}
         <table class="table calendar">
             <caption class="h3">{{ month.month | date:'F Y' }}</caption>
             <thead>
