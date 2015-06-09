@@ -27,7 +27,7 @@
 
 /* Calendar */
 .calendar {
-    font-size: small;
+    font-size: 0.9em;
 }
 
 .calendar thead tr th,
@@ -43,7 +43,7 @@
 }
 .calendar tbody tr td,
 .calendar tbody tr td + td {
-    border-color: #eee;
+    border-color: #ddd;
 }
 
 .calendar td.day {height: 4em;}
@@ -65,7 +65,13 @@
     color: #ddd;
 }
 
-.day p {margin: 0.5em 0;}
+.day-meals {
+    margin: 0.25em 0;
+    padding: 0;
+    list-style: none;
+}
+.day-meals li {}
+.day-meals li + li {margin-top: 0.25em;}
 
 .calendar caption {
     margin-bottom: 0;

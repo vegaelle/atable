@@ -43,11 +43,11 @@
                         day--disabled{% endif %} {% if day.meals %}day--with-meal{% endif %}">
                         <span class="day-number">{{ day.date | date:'d' }}</span>
                         {% if day.meals %}
-                        <p>
+                        <ul class="day-meals">
                         {% for meal in day.meals %}
-                        {{ meal.date | date:'H:i' }} - {{ meal }}<br />
+                            <li>{{ meal.date | date:'H:i' }} - {{ meal }}</li>
                         {% endfor %}
-                        </p>
+                        </ul>
                         {% endif %}
                     </td>
                     {% endfor %}
