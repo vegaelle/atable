@@ -8,6 +8,14 @@ Atable is written in Python3, and does not plan to support Python2 for now
 (although it could come later). Its only real requirement is Django-1.8 (but
 some optional Django dependencies are also required, like Pillow or PyYAML).
 
+You may need the following system-wide libs (for example if you run a
+Debian-Like system):
+
+- python3-dev (for Pillow)
+- libjpeg-dev (for thumbnails support)
+- libpng-dev (for thumbnails support)
+- libpq-dev (for Psycopg2 support, if you intend to use Postgresql)
+
 ## Setup
 
 1. Install Virtualenv, if you don’t have it yet
