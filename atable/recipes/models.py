@@ -366,7 +366,7 @@ class Session(models.Model):
             month = cal.monthdatescalendar(cur_month.year, cur_month.month)
             for i, month_week in enumerate(month):
                 for j, day in enumerate(month_week):
-                    meal_dates = meals_dates[day] if day in meals_dates and day.month == cur_month.month else []
+                    meal_dates = meals_dates[day] if day in meals_dates else []
                     remaining_meals -= len(meal_dates)
                     month[i][j] = {'date': month[i][j], 'meals': meal_dates}
             months.append({'month': cur_month, 'dates': month})
