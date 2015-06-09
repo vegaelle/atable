@@ -53,7 +53,7 @@ class RecipeIngredient(models.Model):
 
     recipe = models.ForeignKey('Recipe', verbose_name='recette')
     ingredient = models.ForeignKey(Ingredient, verbose_name='ingrédient')
-    quantity = models.IntegerField(verbose_name='quantité')
+    quantity = models.FloatField(verbose_name='quantité')
 
     def __str__(self):
         if self.recipe and self.ingredient:
