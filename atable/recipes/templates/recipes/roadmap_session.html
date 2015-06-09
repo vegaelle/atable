@@ -40,7 +40,7 @@
                 <tr>
                     {% for day in week %}
                     <td class="day {% if day.date.month != month.month.month %}
-                        day--disabled{% endif %} {% if day.meals %}day--with-meal active{% endif %}">
+                        day--disabled{% endif %} {% if day.meals %}day--with-meal{% endif %}">
                         <span class="day-number">{{ day.date | date:'d' }}</span>
                         {% if day.meals %}
                         <p>

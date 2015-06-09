@@ -56,6 +56,14 @@
 .day--disabled .day-number {color: #ddd;}
 .day--with-meal .day-number {font-weight: bold;}
 
+.day--with-meal {
+    background-color: #f5f5f5;
+}
+.day--disabled.day--with-meal {
+    background-color: #fff;
+    color: #ddd;
+}
+
 .day p {margin: 0.5em 0;}
 
 .calendar caption {
