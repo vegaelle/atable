@@ -33,6 +33,7 @@
 .calendar thead tr th,
 .calendar tbody tr td {
     padding: 4px;
+    width: 14.28%;
 }
 .calendar thead tr th {
     text-align: right;
@@ -45,7 +46,7 @@
     border-color: #eee;
 }
 
-.calendar td.day {height: 3em;}
+.calendar td.day {height: 4em;}
 .calendar td.day--with-meal {height: auto}
 
 .day-number {
