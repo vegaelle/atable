@@ -5,6 +5,18 @@ img {
     height: auto;
 }
 
+/* Page footer */
+.page-footer {
+    padding-top: 9px;
+    margin: 20px 0px 40px;
+    border-top: 1px solid #EEE;
+}
+
+/* Breadcrumb */
+.breadcrumb > li + li::before {
+    content: "▸";
+}
+
 /* Tables */
 tfoot {
     font-weight: bold;

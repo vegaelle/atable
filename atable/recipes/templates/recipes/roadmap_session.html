@@ -19,12 +19,20 @@
     </div>
     <div class="panel-group panel-group-table">
         {% if session.calendar %}
+        <div class="row">
         {% for month in session.calendar %}
+        <div class="col-lg-6 col-md-6">
         <table class="table calendar">
             <caption class="h3">{{ month.month | date:'F Y' }}</caption>
             <thead>
-                <tr><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th>
-                    <th>Vendredi</th><th>Samedi</th><th>Dimanche</th>
+                <tr>
+                    <th>Lun</th>
+                    <th>Mar</th>
+                    <th>Mer</th>
+                    <th>Jeu</th>
+                    <th>Ven</th>
+                    <th>Sam</th>
+                    <th>Dim</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +40,7 @@
                 <tr>
                     {% for day in week %}
                     <td class="day {% if day.date.month != month.month.month %}
-                        day--disabled{% endif %} {% if day.meals %}day--with-meal active{% endif %}">
+                        day--disabled{% endif %} {% if day.meals %}day--with-meal{% endif %}">
                         <span class="day-number">{{ day.date | date:'d' }}</span>
                         {% if day.meals %}
                         <p>
@@ -47,7 +55,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
         {% endfor %}
+        </div>
         {% endif %}
     </div>
 </div>
