@@ -351,7 +351,6 @@ class Session(models.Model):
         meals = self.meal_set.order_by('date')
         meals_dates = {}
         meals_count = 0
-        cur_month = datetime.now()
         for meal in meals:
             cur_month = meal.date if cur_month is None else cur_month
             meals_count += 1
@@ -359,6 +358,9 @@ class Session(models.Model):
                 if meal.date.date() not in meals_dates:
                     meals_dates[meal.date.date()] = []
             meals_dates[meal.date.date()].append(meal)
+
+        if not cur_month:
+            cur_month = datetime.now()
 
         months = []
 
