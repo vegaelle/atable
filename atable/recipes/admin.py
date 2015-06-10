@@ -13,7 +13,7 @@ class MealParticipantInline(admin.TabularInline):
     model = MealParticipant
 
 
-class SessionMealInline(admin.TabularInline):
+class SessionMealInline(admin.StackedInline):
     model = Meal
 
 

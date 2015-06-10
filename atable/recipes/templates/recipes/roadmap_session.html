@@ -45,7 +45,8 @@
                         {% if day.meals %}
                         <ul class="day-meals">
                         {% for meal in day.meals %}
-                            <li>{{ meal.date | date:'H:i' }} - {{ meal }}</li>
+                        <li>{{ meal.date | date:'H:i' }} - {{ meal }}
+                            ({{ meal.participants_count }} participant{{ meal.participants_count | pluralize }})</li>
                         {% endfor %}
                         </ul>
                         {% endif %}
@@ -58,6 +59,11 @@
         </div>
         {% endfor %}
         </div>
+        {% else %}
+        <p class="text-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            Il n’y a aucun repas dans cette session !
+        </p>
         {% endif %}
     </div>
 </div>

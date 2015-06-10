@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from math import ceil
+from datetime import datetime
 from django.db import models
 from django.conf import settings
 from django.shortcuts import resolve_url
@@ -350,11 +351,13 @@ class Session(models.Model):
         meals = self.meal_set.order_by('date')
         meals_dates = {}
         meals_count = 0
+        cur_month = datetime.now()
         for meal in meals:
             cur_month = meal.date if cur_month is None else cur_month
             meals_count += 1
             if meal.date not in meals_dates:
-                meals_dates[meal.date.date()] = []
+                if meal.date.date() not in meals_dates:
+                    meals_dates[meal.date.date()] = []
             meals_dates[meal.date.date()].append(meal)
 
         months = []
@@ -366,7 +369,8 @@ class Session(models.Model):
             month = cal.monthdatescalendar(cur_month.year, cur_month.month)
             for i, month_week in enumerate(month):
                 for j, day in enumerate(month_week):
-                    meal_dates = meals_dates[day] if day in meals_dates and day.month == cur_month.month else []
+                    meal_dates = meals_dates[day] if day in meals_dates and \
+                        day.month == cur_month.month else []
                     remaining_meals -= len(meal_dates)
                     month[i][j] = {'date': month[i][j], 'meals': meal_dates}
             months.append({'month': cur_month, 'dates': month})
