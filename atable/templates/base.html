@@ -22,8 +22,10 @@
         </main>
         <footer class="page-footer">
             {% block page-footer %}
-                <a href="{% url 'about' %}">About</a>
-                <a href="{% url 'admin:index' %}">Administration</a>
+                <ul>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'admin:index' %}">Administration</a></li>
+                </ul>
             {% endblock %}
         </footer>
     </div>

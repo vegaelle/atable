@@ -11,6 +11,18 @@ img {
     margin: 20px 0px 40px;
     border-top: 1px solid #EEE;
 }
+.page-footer ul {
+    margin: 0;
+    padding: 0;
+}
+.page-footer li {display: inline;}
+.page-footer li + li:before {
+    content: "-";
+    display: inline-block;
+    margin-right: 0.25em;
+    color: #999;
+}
+
 
 /* Breadcrumb */
 .breadcrumb > li + li::before {
