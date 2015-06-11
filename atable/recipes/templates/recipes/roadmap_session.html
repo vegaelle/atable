@@ -46,7 +46,8 @@
                         <ul class="day-meals">
                         {% for meal in day.meals %}
                         <li>{{ meal.date | date:'H:i' }} - {{ meal }}
-                            ({{ meal.participants_count }} participant{{ meal.participants_count | pluralize }})</li>
+                            <small>{{ meal.participants_count }}&nbsp;participant{{ meal.participants_count | pluralize }}</small>
+                        </li>
                         {% endfor %}
                         </ul>
                         {% endif %}
