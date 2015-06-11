@@ -111,6 +111,7 @@
     </div>
     <div class="list-group">
         {% for meal in session.meals %}
+        {% if meal.ustensils_list|length %}
         <li class="list-group-item">
             <h3 class="list-group-item-heading">Pour {{ meal }} ({{ meal.date | date:'DATE_FORMAT' }})</h3>
             <div class="list-group-item-text">
@@ -118,14 +119,16 @@
                     {% for ustensil in meal.ustensils_list %}
                     <li class="">
                         <strong>{{ ustensil.ustensil | capfirst }}</strong>
-                        {% if ustensil.used_in|length > 1 %}
-                        (Utilisé pour : {{ ustensil.used_in | join:', ' }})
-                        {% endif %}
+                        (
+                        {% if ustensil.used_in|length > 1 %}<span class="glyphicon glyphicon-exclamation-sign"></span>{% endif %}
+                        Utilisé pour : {{ ustensil.used_in | join:', ' }}
+                        )
                     </li>
                     {% endfor %}
                 </ul>
             </div>
         </li>
+        {% endif %}
         {% endfor %}
     </div>
 </div>
