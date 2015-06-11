@@ -39,7 +39,6 @@ class DietIngredientsForm(forms.ModelForm):
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'diets_str')
-    exclude = ['diets']
     list_filter = ('diets__name',)
     search_fields = ['name', 'diets__name']
 
