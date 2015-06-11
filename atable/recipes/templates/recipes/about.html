@@ -1,0 +1,21 @@
+{% extends "recipes/base.html" %}
+{% block title %}About{% endblock %}
+
+{% block content %}
+<header>
+    <ol class="breadcrumb">
+      <li><a href="{% url 'home' %}">Accueil</a></li>
+      <li class="active">About</li>
+    </ol>
+    <h1>About</h1>
+</header>
+
+<div class="">
+    <p>
+    <strong>À Table</strong> is a free software.
+    </p>
+    <p>
+    Source code can be found on GitHub : <a href="https://github.com/gordon-/atable">https://github.com/gordon-/atable</a>.
+    </p>
+</div>
+{% endblock%}

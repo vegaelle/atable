@@ -21,7 +21,10 @@
         {% block content %}{% endblock %}
         </main>
         <footer class="page-footer">
-            {% block page-footer %}<a href="{% url 'admin:index' %}">Administration</a>{% endblock %}
+            {% block page-footer %}
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'admin:index' %}">Administration</a>
+            {% endblock %}
         </footer>
     </div>
     <script src="{% static 'js/jquery.min.js' %}"></script>

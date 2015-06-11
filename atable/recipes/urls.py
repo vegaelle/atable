@@ -1,10 +1,13 @@
 from django.conf.urls import url
+from django.views.generic import TemplateView
 from . import views
 from .views import IngredientListView, IngredientDetailView, RecipeListView, RecipeDetailView
 
 
 urlpatterns = [
     url(r'^$', RecipeListView.as_view(), name='home'), # temp
+    url(r'^about$', TemplateView.as_view(template_name='recipes/about.html'),
+         name='about'),
     url(r'^ingredients$', IngredientListView.as_view(), name='ingredient_list'),
     url(r'^ingredients/(?P<pk>[-\w]+)$', IngredientDetailView.as_view(),
          name='ingredient_detail'),
