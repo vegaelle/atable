@@ -136,7 +136,7 @@ class Recipe(models.Model):
     def picture_str(self):
         thumb = get_thumbnail(self.picture, '100x100', crop='center')
         if thumb:
-            return '<img src="{}" />'.format(thumb.url)
+            return '<img src="{}" alt="" />'.format(thumb.url)
         else:
             return ''
     picture_str.short_description = 'Image'
@@ -324,8 +324,8 @@ class Meal(models.Model):
 
     def admin_roadmap(self):
         return '<a href="{url}" title="Générer la feuille de route" '\
-               'target="_BLANK"><img height="16" src="/static/open-iconic/spreadsheet'\
-               '.svg" alt="Générer la feuille de route" /></a>'.format(
+               'target="_blank"><span class=" glyphicon glyphicon-list">'\
+               '</span></a>'.format(
                    url=resolve_url('roadmap_meal',
                                    meal_id=self.id))
     admin_roadmap.short_description = 'Feuille de route'
@@ -416,9 +416,9 @@ class Session(models.Model):
 
     def admin_roadmap(self):
         return '<a href="{url}" title="Générer la feuille de route" '\
-               'target="_BLANK"><img height="16" src="/static/open-iconic/spreadsheet'\
-               '.svg" alt="Générer la feuille de route" /></a>'.format(
-                   url=resolve_url('roadmap_session',
+               'target="_blank"><span class=" glyphicon glyphicon-list">'\
+               '</span></a>'.format(
+                           url=resolve_url('roadmap_session',
                                    session_id=self.id))
     admin_roadmap.short_description = 'Feuille de route'
     admin_roadmap.allow_tags = True
