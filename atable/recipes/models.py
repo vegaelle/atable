@@ -7,6 +7,7 @@ from django.shortcuts import resolve_url
 from calendar import Calendar
 from dateutils import relativedelta
 from sorl.thumbnail import ImageField, get_thumbnail
+from django.template.defaultfilters import pluralize
 from .decorators import method_cache
 
 
@@ -303,16 +304,31 @@ class Meal(models.Model):
         """returns a list of warnings concerning this meal (does a recipe not
         have any compatible participant? Cannot a participant eat something?)
         """
-        return []
+        warnings = []
+        for recipe, part in self.recipe_diet_participants().items():
+            if part == 0:
+                warnings.append('Personne ne peut manger {}'.format(recipe))
+        for part in self.participants():
+            if not part.can_eat():
+                warnings.append('{} {}{} ne peu{}t rien manger'
+                                .format(part.count,
+                                        part.diet,
+                                        pluralize(part.count),
+                                        pluralize(part.count, 'ven')))
+
+        return warnings
 
     def admin_warnings(self):
         warnings = self.warnings()
         if len(warnings):
-            return '<strong style="color: red;">⚠</strong><ul>' \
-                + '\n'.join(['<li>{}</li>'.format(s) for s in warnings]) \
-                + '</ul>'
+            return '\n'.join(['<p class="text-danger"><span class="glyphicon '
+                              'glyphicon-exclamation-sign"></span> {}</p>\n'
+                              .format(s) for s in warnings])
         else:
-            return ''
+            return '<p class="text-success"><span class="glyphicon '\
+                'glyphicon-ok-sign"></span> Tout va bien ♥</p>'
+    admin_warnings.short_description = 'Avertissements'
+    admin_warnings.allow_tags = True
 
     @method_cache()
     def status(self):

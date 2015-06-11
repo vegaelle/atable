@@ -58,7 +58,7 @@ class RecipeAdmin(AdminImageMixin, admin.ModelAdmin):
 class MealAdmin(admin.ModelAdmin):
     filter_horizontal = ('recipes',)
     inlines = [MealParticipantInline, ]
-    list_display = ('name', 'participants_count', 'date',
+    list_display = ('name', 'participants_count', 'date', 'admin_warnings',
                     'admin_roadmap')
     search_fields = ['name', 'recipes__name']
 
