@@ -1,5 +1,6 @@
 {% extends "recipes/base.html" %}
 {% block title %}{{ ingredient.name | capfirst }}{% endblock %}
+{% block body_class %}page page--ingredient page--ingredient--{{ ingredient.id }}{% endblock %}
 
 {% block content %}
 

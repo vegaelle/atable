@@ -1,6 +1,7 @@
 {% extends "recipes/base.html" %}
 {% load thumbnail %}
 {% block title %}{{ recipe.name | capfirst }}{% endblock %}
+{% block body_class %}page page--recipe page--recipe--{{ recipe.id }}{% endblock %}
 
 {% block content %}
 
