@@ -25,5 +25,15 @@
     </div>
 </div>
 
+{% if request.user.is_staff %}
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <h2 class="panel-title"><span class="glyphicon glyphicon-cog"></span> Administration</h2>
+    </div>
+    <div class="panel-body">
+        <a href="{{ ingredient.get_admin_url }}" class="btn btn-default">Editer cet ingrédient</a>
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}

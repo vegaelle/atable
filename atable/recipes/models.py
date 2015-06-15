@@ -3,6 +3,7 @@ from math import ceil
 from datetime import datetime
 from django.db import models
 from django.conf import settings
+from django.core import urlresolvers
 from django.shortcuts import resolve_url
 from calendar import Calendar
 from dateutils import relativedelta
@@ -46,6 +47,10 @@ class Ingredient(models.Model):
 
     def get_absolute_url(self):
         return resolve_url('ingredient_detail', pk=self.pk)
+
+    def get_admin_url(self):
+        return urlresolvers.reverse("admin:%s_%s_change" %
+        (self._meta.app_label, self._meta.model_name), args=(self.pk,))
 
     class Meta:
         verbose_name = 'ingrédient'
@@ -176,6 +181,10 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         return resolve_url('recipe_detail', pk=self.pk)
+
+    def get_admin_url(self):
+        return urlresolvers.reverse("admin:%s_%s_change" %
+        (self._meta.app_label, self._meta.model_name), args=(self.pk,))
 
     class Meta:
         verbose_name = 'recette'
