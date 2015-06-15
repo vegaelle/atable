@@ -127,7 +127,7 @@ DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': STATIC_URL + 'jquery-2.1.4.min.js',
 
 # Atable specific settings
 
-DEFAULT_ADMIN_TITLE = 'À Table'
+DEFAULT_TITLE = 'À Table'
 
 DEFAULT_RECIPE_LICENCE = """<h2> CC0 1.0 universel (CC0 1.0)</h2>
 <em>Transfert dans le Domaine Public</em>

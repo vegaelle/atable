@@ -25,4 +25,4 @@ urlpatterns = [
 ]
 
 # Custom admin title
-admin.site.site_header = settings.DEFAULT_ADMIN_TITLE
+admin.site.site_header = settings.DEFAULT_TITLE
