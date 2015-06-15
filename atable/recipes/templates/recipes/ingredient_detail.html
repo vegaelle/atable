@@ -31,7 +31,9 @@
         <h2 class="panel-title"><span class="glyphicon glyphicon-cog"></span> Administration</h2>
     </div>
     <div class="panel-body">
-        <a href="{{ ingredient.get_admin_url }}" class="btn btn-default">Editer cet ingrédient</a>
+        <a href="{% url 'admin:recipes_ingredient_add' %}" class="btn btn-default">Ajouter un ingrédient</a>
+        <a href="{% url 'admin:recipes_ingredient_change' ingredient.id %}" class="btn btn-default">Editer cet ingrédient</a>
+        <a href="{% url 'admin:recipes_ingredient_delete' ingredient.id %}" class="btn btn-danger">Supprimer cet ingrédient</a>
     </div>
 </div>
 {% endif %}
