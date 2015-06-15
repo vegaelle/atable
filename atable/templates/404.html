@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Erreur 404{% endblock %}
+
+{% block body_class %}error error--404{% endblock %}
+
+{% block content %}
+
+<header>
+    <ol class="breadcrumb">
+      <li><a href="{% url 'home' %}">Accueil</a></li>
+      <li class="active">Erreur 404</li>
+    </ol>
+    <h1>Erreur 404</h1>
+</header>
+
+<p>
+    <span class="glyphicon glyphicon-exclamation-sign"></span>
+     Cette page n'existe pas
+    <span class="glyphicon glyphicon-exclamation-sign"></span>
+</p>
+<p>
+    <img src="{% static 'img/e404.jpg' %}" alt="Empty plate" />
+</p>
+
+{% endblock %}

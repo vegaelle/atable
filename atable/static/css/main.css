@@ -33,3 +33,9 @@ img {
 tfoot {
     font-weight: bold;
 }
+
+
+/** Errors **/
+.error--404 {}
+.error--404 main p {margin-bottom: 0;}
+.error--404 .page-footer {margin-top: 0;}
