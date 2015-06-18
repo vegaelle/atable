@@ -65,7 +65,7 @@ class MealAdmin(admin.ModelAdmin):
 
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'admin_roadmap')
+    list_display = ('name', 'admin_warnings', 'admin_roadmap')
     inlines = [SessionMealInline]
 
 

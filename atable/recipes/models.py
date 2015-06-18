@@ -304,22 +304,22 @@ class Meal(models.Model):
         """returns a list of warnings concerning this meal (does a recipe not
         have any compatible participant? Cannot a participant eat something?)
         """
-        warnings = []
+        warnings = OrderedDict()
         for recipe, part in self.recipe_diet_participants().items():
             if part == 0:
-                warnings.append('Personne ne peut manger {}'.format(recipe))
+                warnings[recipe] = ('Personne ne peut manger {}'.format(recipe))
         for part in self.participants():
             if not part.can_eat():
-                warnings.append('{} {}{} ne peu{}t rien manger'
-                                .format(part.count,
-                                        part.diet,
-                                        pluralize(part.count),
-                                        pluralize(part.count, 'ven')))
+                warnings[part] = ('{} {}{} ne peu{}t rien manger'
+                                  .format(part.count,
+                                          part.diet,
+                                          pluralize(part.count),
+                                          pluralize(part.count, 'ven')))
 
         return warnings
 
     def admin_warnings(self):
-        warnings = self.warnings()
+        warnings = self.warnings().values()
         if len(warnings):
             return '\n'.join(['<p class="text-danger"><span class="glyphicon '
                               'glyphicon-exclamation-sign"></span> {}</p>\n'
@@ -433,11 +433,32 @@ class Session(models.Model):
     def admin_roadmap(self):
         return '<a href="{url}" title="Générer la feuille de route" '\
                'target="_blank"><span class=" glyphicon glyphicon-list">'\
-               '</span></a>'.format(
-                           url=resolve_url('roadmap_session',
-                                   session_id=self.id))
+               '</span></a>'.format(url=resolve_url('roadmap_session',
+                                    session_id=self.id))
     admin_roadmap.short_description = 'Feuille de route'
     admin_roadmap.allow_tags = True
+
+    @method_cache()
+    def warnings(self):
+        """returns a list of warnings concerning this session
+        """
+        warnings_list = [m.warnings() for m in self.meal_set.all()]
+        warnings = OrderedDict()
+        for warning in warnings_list:
+            warnings.update(warning)
+        return warnings
+
+    def admin_warnings(self):
+        warnings = self.warnings().values()
+        if len(warnings):
+            return '\n'.join(['<p class="text-danger"><span class="glyphicon '
+                              'glyphicon-exclamation-sign"></span> {}</p>\n'
+                              .format(s) for s in warnings])
+        else:
+            return '<p class="text-success"><span class="glyphicon '\
+                'glyphicon-ok-sign"></span> Tout va bien ♥</p>'
+    admin_warnings.short_description = 'Avertissements'
+    admin_warnings.allow_tags = True
 
     def __str__(self):
         return self.name
