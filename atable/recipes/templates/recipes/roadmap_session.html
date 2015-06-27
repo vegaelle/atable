@@ -86,9 +86,9 @@
                 <tr><th colspan="4">Pour le {{ ingredient.date | date:'DATE_FORMAT' }}</th></tr>
                 {% endifchanged %}
                 <tr><td>{{ ingredient.ingredient }}</td>
-                    <td>{{ ingredient.ingredient.price }} €</td>
+                    <td>{{ ingredient.ingredient.price | floatformat:2 }} €</td>
                     <td>{{ ingredient.quantity }} {{ ingredient.ingredient.unit }}</td>
-                    <td>{{ ingredient.price }} €</td>
+                    <td>{{ ingredient.price | floatformat:2 }} €</td>
                 </tr>
                 {% endfor %}
                 {% else %}
@@ -98,7 +98,7 @@
             <tfoot>
                 <tr>
                     <td colspan="3">TOTAL</td>
-                    <td>{{ session.total_price }} €</td>
+                    <td>{{ session.total_price | floatformat:2 }} €</td>
                 </tr>
             </tfoot>
         </table>

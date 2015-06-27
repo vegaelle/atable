@@ -110,15 +110,15 @@
                 {% for ingredient in meal.ingredients_list %}
                     <tr>
                         <td>{{ ingredient.ingredient }}</td>
-                        <td>{{ ingredient.ingredient.price }} €</td>
+                        <td>{{ ingredient.ingredient.price | floatformat:2 }} €</td>
                         <td>{{ ingredient.quantity }} {{ ingredient.ingredient.unit }}</td>
-                        <td>{{ ingredient.price }} €</td>
+                        <td>{{ ingredient.price | floatformat:2 }} €</td>
                     </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3">TOTAL</td><td>{{ meal.total_price }} €</td>
+                    <td colspan="3">TOTAL</td><td>{{ meal.total_price | floatformat:2 }} €</td>
                 </tr>
             </tfoot>
         </table>
