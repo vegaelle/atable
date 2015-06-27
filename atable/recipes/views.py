@@ -18,6 +18,12 @@ class RecipeListView(ListView):
 class RecipeDetailView(DetailView):
     model = Recipe
 
+def homepage(request):
+    recipe_list = Recipe.objects.order_by('-id')[:5]
+    ingredient_list = Ingredient.objects.order_by('-id')[:5]
+    return render(request, 'recipes/homepage.html',
+                  {'recipe_list': recipe_list,
+                   'ingredient_list': ingredient_list})
 
 @permission_required('meal.can_view')
 def roadmap_meal(request, meal_id):

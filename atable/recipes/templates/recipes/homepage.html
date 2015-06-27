@@ -1,0 +1,86 @@
+{% extends "recipes/base.html" %}
+{% load thumbnail %}
+{% block title %}Accueil{% endblock %}
+{% block body_class %}page page--homepage{% endblock %}
+
+{% block content %}
+
+<header></header>
+
+<div class="row">
+
+    <div class="col-lg-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                <span class="glyphicon glyphicon-cutlery"></span> Liste des recettes
+            </h2>
+        </div>
+        {% if recipe_list %}
+        <ul class="list-group">
+        {% for recipe in recipe_list %}
+            <li class="list-group-item clearfix">
+                {% if recipe.diets.count %}
+                {% for diet in recipe.diets.all %}
+                <span class="diet badge">{{ diet }}</span>
+                {% endfor %}
+                {% else %}
+                <span class="diet badge">Omnivore</span>
+                {% endif %}
+                <a href="{{ recipe.get_absolute_url }}" class="floating-thumb">
+                    {% thumbnail recipe.picture "50x50" crop="center" as picture %}
+                    <img class="" src="{{ picture.url }}" alt="{{ recipe }}" />
+                    {% endthumbnail %}
+                </a>
+                <h3 class="list-group-item-heading"><a href="{{ recipe.get_absolute_url }}">{{ recipe }}</a></h3>
+            </li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p class="panel-group">
+            Aucune recette
+        </p>
+        {% endif %}
+        <div class="panel-footer">
+            <a href="{% url 'recipe_list' %}" class="readmore">Toutes les recettes <span class="caret"></span></a>
+        </div>
+    </div>
+    </div>
+
+    <div class="col-lg-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                <span class="glyphicon glyphicon-shopping-cart"></span> Ingredients
+            </h2>
+        </div>
+        {% if ingredient_list %}
+        <ul class="list-group">
+        {% for ingredient in ingredient_list %}
+            <li class="list-group-item">
+            {% if ingredient.diets.count %}
+                {% for diet in ingredient.diets.all %}
+                <span class="diet badge">{{ diet }}</span>
+                {% endfor %}
+                {% else %}
+                <span class="diet badge">Omnivore</span>
+                {% endif %}
+                <h3 class="list-group-item-heading"><a href="{{ ingredient.get_absolute_url }}">{{ ingredient }}</a></h3>
+            </li>
+
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p class="panel-group">
+            Aucun ingrédient
+        </p>
+        {% endif %}
+        <div class="panel-footer">
+            <a href="{% url 'ingredient_list' %}" class="readmore">Tous les ingrédients <span class="caret"></span></a>
+        </div>
+    </div>
+    </div>
+
+</div>
+
+{% endblock %}

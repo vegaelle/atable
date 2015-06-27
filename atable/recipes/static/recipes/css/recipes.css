@@ -16,6 +16,19 @@
     box-shadow: none;
 }
 
+/* Readmore links*/
+.readmore {}
+.readmore .caret {
+    transform: rotate(-90deg);
+    transform-origin: center center;
+    margin-top: -0.15em;
+}
+
+/* Thumbnails in list */
+.floating-thumb {
+    float: left;
+    margin: 0 0.5em 0.5em 0;
+}
 
 /* Tables */
 .panel-group-table {
@@ -24,6 +37,11 @@
 }
 
 
+/* Homepage */
+.page--homepage {}
+.page--homepage .panel-footer {
+    text-align: right;
+}
 
 /* Calendar */
 .calendar {
