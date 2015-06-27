@@ -5,7 +5,7 @@ from .views import IngredientListView, IngredientDetailView, RecipeListView, Rec
 
 
 urlpatterns = [
-    url(r'^$', views.homepage, name='home'),
+    url(r'^$', views.homepage, name='homepage'),
     url(r'^about$', TemplateView.as_view(template_name='recipes/about.html'),
          name='about'),
     url(r'^ingredients$', IngredientListView.as_view(), name='ingredient_list'),
