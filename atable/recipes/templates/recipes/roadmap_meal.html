@@ -33,13 +33,7 @@
                 {% endif %}
             </div>
             <div class="col-lg-10">
-                {% if recipe.diets.count %}
-                {% for diet in recipe.diets.all %}
-                <span class="diet badge">{{ diet }}</span>
-                {% endfor %}
-                {% else %}
-                <span class="diet badge">Omnivore</span>
-                {% endif %}
+                {% include "recipes/inc/diets_badges.html" with diets=recipe.diets %}
                 <h3 class="list-group-item-heading"><a href="/recipes/{{ recipe.id }}">{{ recipe }}</a></h3>
                 <div class="list-group-item-text clearfix">
                     {% if participant == 0 %}

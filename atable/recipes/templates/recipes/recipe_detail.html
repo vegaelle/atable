@@ -16,14 +16,7 @@
 
 <div class="panel panel-noborder">
     <div class="panel-body">
-        {% if recipe.diets.count %}
-        {% for diet in recipe.diets.all %}
-        <span class="diet badge">{{ diet }}</span>
-        {% endfor %}
-        {% else %}
-        <span class="diet badge">Omnivore</span>
-        {% endif %}
-
+    {% include "recipes/inc/diets_badges.html" with diets=recipe.diets %}
     Type : {{ recipe.get_meal_type_display }}
     </div>
 </div>

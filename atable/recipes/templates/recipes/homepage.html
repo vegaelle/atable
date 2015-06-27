@@ -20,13 +20,7 @@
         <ul class="list-group">
         {% for recipe in recipe_list %}
             <li class="list-group-item clearfix">
-                {% if recipe.diets.count %}
-                {% for diet in recipe.diets.all %}
-                <span class="diet badge">{{ diet }}</span>
-                {% endfor %}
-                {% else %}
-                <span class="diet badge">Omnivore</span>
-                {% endif %}
+                {% include "recipes/inc/diets_badges.html" with diets=recipe.diets %}
                 <a href="{{ recipe.get_absolute_url }}" class="floating-thumb">
                     {% thumbnail recipe.picture "50x50" crop="center" as picture %}
                     <img class="" src="{{ picture.url }}" alt="{{ recipe }}" />

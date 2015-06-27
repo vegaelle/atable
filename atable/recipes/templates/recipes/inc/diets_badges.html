@@ -1,0 +1,9 @@
+<span class="diet-badges">
+{% if diets.count %}
+{% for diet in diets.all %}
+<span class="diet badge">{{ diet }}</span>
+{% endfor %}
+{% else %}
+<span class="diet badge">Omnivore</span>
+{% endif %}
+</span>

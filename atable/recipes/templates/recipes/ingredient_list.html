@@ -21,13 +21,7 @@
     <ul class="list-group">
     {% for ingredient in ingredient_list %}
     <li class="list-group-item">
-        {% if ingredient.diets.count %}
-        {% for diet in ingredient.diets.all %}
-        <span class="diet badge">{{ diet }}</span>
-        {% endfor %}
-        {% else %}
-        <span class="diet badge">Omnivore</span>
-        {% endif %}
+        {% include "recipes/inc/diets_badges.html" with diets=ingredient.diets %}
         <h2 class="list-group-item-heading"><a href="{{ ingredient.get_absolute_url }}">{{ ingredient }}</a></h2>
     </li>
     {% endfor %}

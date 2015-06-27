@@ -35,13 +35,7 @@
             {% else %}
             <div class="col-lg-12">
             {% endif %}
-                {% if recipe.diets.count %}
-                {% for diet in recipe.diets.all %}
-                <span class="diet badge">{{ diet }}</span>
-                {% endfor %}
-                {% else %}
-                <span class="diet badge">Omnivore</span>
-                {% endif %}
+                {% include "recipes/inc/diets_badges.html" with diets=recipe.diets %}
                 <h2 class="list-group-item-heading"><a href="{{ recipe.get_absolute_url }}">{{ recipe }}</a></h2>
                 <div class="list-group-item-text clearfix">
                     <strong>Type :</strong> {{ recipe.get_meal_type_display }}<br />
