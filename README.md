@@ -32,7 +32,7 @@ Debian-Like system):
 
 4. Clone repository, and get in the project dir
 
-    git clone https://github.com/gordon-/atable && cd atable
+    git clone https://github.com/gordon-/atable && cd atable/atable/
 
 5. Install project dependencies
 
