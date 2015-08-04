@@ -69,6 +69,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
+                'recipes.context_processors.settings',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -76,6 +77,9 @@ TEMPLATES = [
         },
     },
 ]
+
+# Settings exposed in templates via context processor
+TEMPLATE_SETTINGS = {'SITE_TITLE',}
 
 WSGI_APPLICATION = 'atable.wsgi.application'
 

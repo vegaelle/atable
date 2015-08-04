@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge" /><![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %} | À Table</title>
+    <title>{% block title %}{% endblock %} | {{ settings.SITE_TITLE }}</title>
     <link href="{% static 'css/bootstrap.min.css' %}" media="all" rel="stylesheet">
     <link href="{% static 'css/main.css' %}" media="all" rel="stylesheet">
     {% block extra_css %}{% endblock %}
