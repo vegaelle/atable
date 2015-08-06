@@ -79,7 +79,7 @@ TEMPLATES = [
 ]
 
 # Settings exposed in templates via context processor
-TEMPLATE_SETTINGS = {'SITE_TITLE',}
+TEMPLATE_SETTINGS = {'SITE_TITLE', 'SITE_SLOGAN',}
 
 WSGI_APPLICATION = 'atable.wsgi.application'
 
@@ -132,6 +132,7 @@ DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': STATIC_URL + 'jquery-2.1.4.min.js',
 # Atable specific settings
 
 SITE_TITLE = 'À table'
+SITE_SLOGAN = 'Gestion de cantines collectives'
 
 DEFAULT_RECIPE_LICENCE = """<h2> CC0 1.0 universel (CC0 1.0)</h2>
 <em>Transfert dans le Domaine Public</em>
