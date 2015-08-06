@@ -69,6 +69,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
+                'recipes.context_processors.settings',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -76,6 +77,9 @@ TEMPLATES = [
         },
     },
 ]
+
+# Settings exposed in templates via context processor
+TEMPLATE_SETTINGS = {'SITE_TITLE',}
 
 WSGI_APPLICATION = 'atable.wsgi.application'
 
@@ -127,7 +131,7 @@ DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': STATIC_URL + 'jquery-2.1.4.min.js',
 
 # Atable specific settings
 
-DEFAULT_TITLE = 'À Table'
+SITE_TITLE = 'À table'
 
 DEFAULT_RECIPE_LICENCE = """<h2> CC0 1.0 universel (CC0 1.0)</h2>
 <em>Transfert dans le Domaine Public</em>
