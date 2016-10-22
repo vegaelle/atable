@@ -135,34 +135,35 @@ DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': STATIC_URL + 'jquery-2.1.4.min.js',
 SITE_TITLE = 'À table'
 SITE_SLOGAN = 'Gestion de cantines collectives'
 
-DEFAULT_RECIPE_LICENCE = """<h2> CC0 1.0 universel (CC0 1.0)</h2>
-<em>Transfert dans le Domaine Public</em>
+DEFAULT_RECIPE_LICENCE = """
+## CC0 1.0 universel (CC0 1.0)
+*Transfert dans le Domaine Public*
 
-<h3>Cette licence est acceptable pour des œuvres culturelles libres.</h3>
+### Cette licence est acceptable pour des œuvres culturelles libres.
 
-<p>La personne qui a associé une œuvre à cet acte a dédié l’œuvre au domaine
+La personne qui a associé une œuvre à cet acte a dédié l’œuvre au domaine
 public en renonçant dans le monde entier à ses droits sur l’œuvre selon les
 lois sur le droit d’auteur, droit voisin et connexes, dans la mesure permise
-par la loi.</p>
+par la loi.
 
-<p>Vous pouvez copier, modifier, distribuer et représenter l’œuvre, même à des
+Vous pouvez copier, modifier, distribuer et représenter l’œuvre, même à des
 fins commerciales, sans avoir besoin de demander l’autorisation. Voir d’autres
-informations ci-dessous.</p>
+informations ci-dessous.
 
-<h3>Autres informations</h3>
+### Autres informations
 
-<ul>
-<li>Les brevets et droits de marque commerciale qui peuvent être détenus par
-autrui ne sont en aucune façon affectés par CC0, de même pour les droits que
-pourraient détenir d’autres personnes sur l’œuvre ou sur la façon dont elle est
-utilisée, comme le droit à l’image ou à la vie privée.</li>
-<li>À moins d’une mention expresse contraire, la personne qui a identifié une
-œuvre à cette notice ne concède aucune garantie sur l’œuvre et décline toute
-responsabilité de toute utilisation de l’œuvre, dans la mesure permise par la
-loi.</li>
-<li>Quand vous utilisez ou citez l’œuvre, vous ne devez pas sous-entendre le
-soutien de l’auteur ou de la personne qui affirme.</li>
-</ul>"""
+
+- Les brevets et droits de marque commerciale qui peuvent être détenus par
+  autrui ne sont en aucune façon affectés par CC0, de même pour les droits que
+  pourraient détenir d’autres personnes sur l’œuvre ou sur la façon dont elle
+  est utilisée, comme le droit à l’image ou à la vie privée.
+- À moins d’une mention expresse contraire, la personne qui a identifié une
+  œuvre à cette notice ne concède aucune garantie sur l’œuvre et décline toute
+  responsabilité de toute utilisation de l’œuvre, dans la mesure permise par la
+  loi.
+- Quand vous utilisez ou citez l’œuvre, vous ne devez pas sous-entendre le
+  soutien de l’auteur ou de la personne qui affirme.
+"""
 
 DEFAULT_RECIPE_AUTHOR = 'La Grande Ourse'
 DEFAULT_DATE_FORMAT = '%d/%m/%Y'

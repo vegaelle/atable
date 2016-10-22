@@ -1,13 +1,16 @@
 from collections import OrderedDict
 from math import ceil
 from datetime import datetime
+from calendar import Calendar
+
 from django.db import models
 from django.conf import settings
 from django.shortcuts import resolve_url
-from calendar import Calendar
 from dateutils import relativedelta
 from sorl.thumbnail import ImageField, get_thumbnail
 from django.template.defaultfilters import pluralize
+from markdown import markdown
+
 from .decorators import method_cache
 
 
@@ -142,6 +145,12 @@ class Recipe(models.Model):
             return ''
     picture_str.short_description = 'Image'
     picture_str.allow_tags = True
+
+    def get_contents(self):
+        return markdown(self.description)
+
+    def get_licence(self):
+        return markdown(self.licence)
 
     def get_diets(self):
         """ return the list of diets for this recipe.
@@ -307,7 +316,8 @@ class Meal(models.Model):
         warnings = OrderedDict()
         for recipe, part in self.recipe_diet_participants().items():
             if part == 0:
-                warnings[recipe] = ('Personne ne peut manger {}'.format(recipe))
+                warnings[recipe] = ('Personne ne peut manger {}'
+                                    .format(recipe))
         for part in self.participants():
             if not part.can_eat():
                 warnings[part] = ('{} {}{} ne peu{}t rien manger'

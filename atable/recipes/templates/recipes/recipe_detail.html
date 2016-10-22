@@ -68,7 +68,7 @@
     <div class="panel-heading">
         <h2 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> Instructions</h2>
     </div>
-    <div class="panel-body">{{ recipe.description }}</div>
+    <div class="panel-body">{{ recipe.get_contents | safe }}</div>
 </div>
 
 {% if recipe.parent_recipes.count %}
@@ -92,7 +92,7 @@
     </div>
     <ul class="list-group">
         <li class="list-group-item">Auteur·e : {{ recipe.author }}</li>
-        <li class="list-group-item">Licence : {{ recipe.licence | safe }}</li>
+        <li class="list-group-item">Licence : {{ recipe.get_licence | safe }}</li>
     </ul>
 </div>
 
